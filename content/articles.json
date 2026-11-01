@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "site": {
+    "name": "3D & Robotics Insights",
+    "subtitle": "三维与机器人技术观察",
+    "author_label": "个人技术观察 · GPT 辅助整理",
+    "status": "draft",
+    "public_url": "https://wqs111000.github.io/3d-robotics-insights/",
+    "published_at": null,
+    "last_content_update": "2026-10-11",
+    "disclaimer": "公开资料核对不等于独立实测；内容经人工审核后发布。",
+    "publication_note": "网站由 GitHub Pages 托管；内容经审核后发布。"
+  },
+  "schedule": {
+    "timezone": "Asia/Shanghai",
+    "weekday": "Saturday",
+    "time": "10:00",
+    "manual_trigger": true,
+    "content_task_status": "enabled",
+    "first_run": "2026-10-17T10:00:00+08:00",
+    "publishing_status": "not_connected",
+    "cost_policy": "仅使用现有 ChatGPT 额度；不购买额外 API、credits、托管或域名。"
+  },
+  "topics": [
+    {
+      "id": "slam",
+      "label": "空间感知与 SLAM",
+      "short": "SLAM",
+      "description": "多传感器融合、定位建图与重定位"
+    },
+    {
+      "id": "reconstruction",
+      "label": "三维重建",
+      "short": "3D Vision",
+      "description": "3DGS、场景表达与数字孪生"
+    },
+    {
+      "id": "navigation",
+      "label": "具身导航",
+      "short": "Navigation",
+      "description": "VLN、ObjectNav 与空间记忆"
+    },
+    {
+      "id": "simulation",
+      "label": "仿真与 Sim-to-Real",
+      "short": "Simulation",
+      "description": "仿真接口、碰撞几何与系统验证"
+    }
+  ],
+  "issues": [],
+  "topic_state": {
+    "slam": {
+      "baseline_established_on": "2026-10-11",
+      "last_successful_scan": null,
+      "last_successful_publish": null,
+      "coverage": "selected_sources_only"
+    },
+    "reconstruction": {
+      "baseline_established_on": "2026-10-11",
+      "last_successful_scan": null,
+      "last_successful_publish": null,
+      "coverage": "selected_sources_only"
+    },
+    "navigation": {
+      "baseline_established_on": "2026-10-11",
+      "last_successful_scan": null,
+      "last_successful_publish": null,
+      "coverage": "selected_sources_only"
+    },
+    "simulation": {
+      "baseline_established_on": "2026-10-11",
+      "last_successful_scan": null,
+      "last_successful_publish": null,
+      "coverage": "selected_sources_only"
+    }
+  },
+  "items": [],
+  "update_log": []
+}
