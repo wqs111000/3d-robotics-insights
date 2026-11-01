@@ -1,39 +1,8 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="面向三维视觉与机器人研发人员的技术观察：原始来源、工程边界与最小验证实验。">
-<meta name="theme-color" content="#122322">
-<title>3D & Robotics Insights · 技术观察</title>
-<style>/*__CSS__*/</style>
-</head>
-<body>
-<a class="skip" href="#workspace">跳至技术条目</a>
-<div id="stage-banner" class="stage-banner"><span class="dot amber"></span>技术观察 · 内容经授权发布 <span class="banner-note">资料核对 ≠ 本人实测</span></div>
-<header class="header wrap">
- <a class="brand" href="#radar" aria-label="返回首页"><span class="mark">I<span>·</span></span><span><strong>3D & Robotics Insights</strong><small>三维与机器人技术观察</small></span></a>
- <nav aria-label="主导航"><button class="nav active" data-view="radar" aria-current="page">本期精选</button><button class="nav" data-view="tracking">持续跟踪</button><button class="nav" data-view="archive">方法与归档</button></nav>
- <span class="header-note">少一点信息，多一点判断。</span>
-</header>
-<main>
- <section class="hero wrap" aria-labelledby="hero-title">
-  <div class="hero-main"><div id="issue-meta" class="eyebrow"><span class="dot mint"></span>FIELD NOTES <span class="separator">/</span> 即将发布 <span class="separator">/</span> </div><h1 id="hero-title">从技术变化，<br>到<span>工程判断。</span></h1><p>聚焦三维视觉、机器人导航与具身智能，<br>从技术进展走向工程判断。</p><div class="hero-actions"><a id="browse-issue" class="button mint-button" href="#workspace">浏览技术观察 <span aria-hidden="true">↘</span></a><button class="hero-link" data-view="archive">了解筛选方法 <span aria-hidden="true">↗</span></button></div></div>
-  <div class="hero-side"><div class="issue-label">最新观察 <span id="issue-number">—</span></div><h2 id="issue-focus">从公开证据出发，<br>形成工程判断。</h2><p id="issue-context">从公开资料出发，整理值得持续关注的技术方向。</p><div class="hero-stats"><div><strong id="stat-items">0</strong><small>跟踪对象</small></div><div><strong id="stat-topics">4</strong><small>专题方向</small></div><div><strong id="stat-tests">0</strong><small>独立实测</small></div></div><div class="editorial-note">资料核对 · 持续修订</div></div>
- </section>
- <section class="workspace wrap" id="workspace" aria-label="技术观察工作区">
-  <aside class="sidebar"><div class="small-heading">研究方向 <span>TOPICS</span></div><div id="topics" class="topic-list" role="group" aria-label="按专题筛选"></div><div class="sidebar-block"><div class="small-heading">更新节奏</div><strong class="schedule-title">周六 10:00</strong><p>北京时间 · 支持手动更新</p><div class="state-row"><span class="dot green"></span>内容任务已启用</div><div class="state-row muted"><span class="dot amber"></span>发布后持续检查</div><button id="copy-update" class="subtle-button">复制手动更新指令 <span aria-hidden="true">↗</span></button></div><div class="sidebar-block standards"><div class="small-heading">三条收录原则</div><p><b>01</b> 优先原始来源</p><p><b>02</b> 把未知明确写出来</p><p><b>03</b> 给出可执行验证项</p><small>不以星数排序，不生成伪精确评分。</small></div></aside>
-  <div class="main-panel">
-   <section id="radar-view"><div class="section-heading"><div><div class="eyebrow dark">CURATED SIGNALS</div><h2>本期精选<span class="draft-label">待更新</span></h2></div><button id="export-md" class="outline-button">导出 Markdown <span aria-hidden="true">↓</span></button></div><div class="filter-bar"><label class="search-field"><span aria-hidden="true">⌕</span><input type="search" id="search" placeholder="搜索项目、技术或工程问题…" aria-label="搜索技术条目"><kbd>/</kbd></label><label class="evidence-label"><span class="sr-only">证据状态</span><select id="evidence"><option value="all">全部证据状态</option><option value="public_material_checked">公开资料已核对</option><option value="tested">独立实测</option></select></label></div><div class="results-bar"><span id="result-count" aria-live="polite"></span><button id="reset-filters" class="text-button">重置筛选</button></div><div id="cards" class="cards"></div><div id="empty" class="empty" hidden><div class="empty-symbol">∅</div><h3>暂无匹配内容</h3><p>暂无匹配文章。也可尝试其他关键词或重置筛选。</p><button class="outline-button" id="empty-reset">查看全部方向</button></div></section>
-   <section id="tracking-view" hidden><div class="section-heading"><div><div class="eyebrow dark">WATCHLIST</div><h2>持续跟踪</h2></div><button id="export-json" class="outline-button">导出内容数据 ↓</button></div><p class="section-intro">保留项目身份、核查时间与修订历史。首次收录不是新版本发布，也不是复现成功。</p><div id="watchlist" class="watchlist"></div></section>
-   <section id="archive-view" hidden><div class="section-heading"><div><div class="eyebrow dark">EDITORIAL METHOD</div><h2>方法与归档</h2></div></div><div class="method-card"><h3>我们记录判断所依赖的证据。</h3><p>每条技术观察包含公开资料事实、编辑建议、未确认事项、最小验证实验与原始来源。内容先发布并持续检查，发现问题时撤下整改；GPT 辅助整理不代表本人逐条审阅。</p><div class="evidence-ladder"><div><span>01</span><strong>作者宣称</strong><p>注明来源，不转述为独立验证。</p></div><div><span>02</span><strong>公开资料核对</strong><p>核对文档，不等于代码已运行。</p></div><div><span>03</span><strong>本人实测</strong><p>必须有本人确认与实验记录。</p></div></div></div><div class="method-card"><h3>内容范围与限制</h3><p>每篇文章以原始来源为依据，区分公开资料、工程判断与实际验证。网页不读取访客账号、不提供在线模型调用、不含统计追踪脚本。</p><p>后续只追加实质变化。没有变化时不凑数；检索失败不推进同步记录，发布失败不改写成功发布时间。</p></div><h3 class="archive-title">历史归档</h3><div id="archives"></div><div class="method-card state-card"><h3>交付状态</h3><dl><dt>当前内容</dt><dd>仅展示已授权发布的内容</dd><dt>公开网站</dt><dd id="public-status">请以当前访问地址为准</dd><dt>定时任务</dt><dd>内容研究已启用；发布后持续检查并按需整改</dd><dt>内容研究节奏</dt><dd>2026-10-17 10:00 · Asia/Shanghai</dd><dt>费用边界</dt><dd>不购买额外 API、credits、域名或服务器</dd></dl></div></section>
-  </div>
- </section>
-</main>
-<footer class="wrap footer"><div><strong>3D & Robotics Insights</strong><span>公开来源 · 持续观察 · 工程判断</span></div><p>每次内容更新与网页发布分别记录。<br>内容经授权后发布；未经标注不代表实测。</p></footer>
-<dialog id="detail-dialog" aria-labelledby="detail-title"><div class="dialog-toolbar"><span>RESEARCH NOTE</span><button id="close-dialog" class="icon-button" aria-label="关闭详情">×</button></div><div id="detail-content"></div></dialog>
-<dialog id="copy-dialog" aria-labelledby="copy-title"><div class="dialog-toolbar"><span id="copy-title">手动更新指令</span><button id="close-copy" class="icon-button" aria-label="关闭指令">×</button></div><p>复制到此项目的 ChatGPT 对话中执行。此按钮只复制文字，不会在后台启动任务。</p><textarea id="copy-text" readonly aria-label="待复制的更新指令"></textarea></dialog>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<noscript><div class="wrap noscript">浏览筛选和详情需要启用 JavaScript。首期正文也随项目提供在 docs/INITIAL_ISSUE.md。</div></noscript>
-<script type="application/json" id="radar-data">/*__DATA__*/</script>
-<script>/*__JS__*/</script>
-</body></html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f6f5f0"><meta name="description" content="三维视觉、机器人导航与具身智能技术观察。"><title>3D &amp; Robotics Insights</title><style>/*__CSS__*/</style></head>
+<body><header class="site-header"><div class="header-inner"><a class="brand" href="#home"><span class="logo">i<span>·</span></span><span><strong>3D &amp; Robotics</strong><small>INSIGHTS / 技术观察</small></span></a><a class="header-link" href="#archive">往期内容 <span>↗</span></a></div></header>
+<main id="home"><section class="hero wrap"><div class="hero-copy"><p class="eyebrow"><span class="dot"></span> 3D VISION &amp; ROBOTICS</p><h1>从技术进展，<br>到<span>工程判断。</span></h1><p class="intro">关注三维视觉、机器人导航与具身智能，记录值得深入研究的技术进展。</p><a class="hero-cta" href="#articles">探索最新内容 <span>↓</span></a></div><div class="hero-mark" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><span class="hero-symbol">✳</span><span class="hero-label">AN EYE ON<br>WHAT'S NEXT.</span></div></section>
+<section class="wrap content" id="articles"><div class="section-title"><div><p class="eyebrow">LATEST OBSERVATIONS</p><h2>技术观察</h2><p id="issue-heading" class="muted"></p></div><button id="archive-shortcut" class="text-link">查看往期 <span>↗</span></button></div><div id="topics" class="topics" role="group" aria-label="按专题筛选"></div><div class="search-row"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索项目或技术" aria-label="搜索项目或技术"></label><span id="result-count" class="count" aria-live="polite"></span></div><div id="cards" class="cards"></div><div id="empty" class="empty" hidden>没有找到相关内容，试试其他关键词或分类。</div><button id="show-all" class="show-all" hidden>查看全部内容 <span>→</span></button></section>
+<section class="wrap archive-section" id="archive"><div class="archive-heading"><div><p class="eyebrow">THE ARCHIVE</p><h2>往期内容</h2></div><p class="muted">按期浏览，持续更新。</p></div><div id="archives" class="archives"></div></section></main>
+<footer class="wrap footer"><div><strong>3D &amp; Robotics Insights</strong><p>三维与机器人技术观察</p></div><span>持续探索，保持好奇。↗</span></footer>
+<dialog id="detail-dialog" aria-labelledby="detail-title"><div class="dialog-bar"><span>TECHNOLOGY INSIGHT</span><button id="close-dialog" aria-label="关闭详情">×</button></div><div id="detail-content"></div></dialog><script type="application/json" id="radar-data">/*__DATA__*/</script><script>/*__JS__*/</script></body></html>
