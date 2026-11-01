@@ -73,7 +73,7 @@
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
   $('#export-md').addEventListener('click',()=>{const list=filteredItems();if(!list.length){toast('当前没有可导出的条目');return;}download(`radar-${data.site.last_content_update}.md`,makeMarkdown(list),'text/markdown;charset=utf-8');toast('已生成当前筛选内容的 Markdown');});
   $('#export-json').addEventListener('click',()=>{download('radar.json',JSON.stringify(data,null,2)+'\n','application/json');toast('已生成完整内容数据，不含账号或密钥');});
-  const updatePrompt='请更新 3D & Robotics Insights。读取原站点内容或我提供的 radar.json，只检索并收录值得跟进的实质变化，保留历史与原始来源，区分作者宣称、资料核对和本人实测。不使用额外 GPT API，不购买 credits、域名或服务。输出更新稿与可合并数据；待本人审核后更新 GitHub 仓库 wqs111000/3d-robotics-insights，推送 main 后由 GitHub Actions 部署。不得把未经审核的内容发布。';
+  const updatePrompt='请更新 3D & Robotics Insights。读取原站点内容或我提供的 radar.json，只检索并收录值得跟进的实质变化，保留历史与原始来源，区分作者宣称、资料核对和本人实测。不使用额外 GPT API，不购买 credits、域名或服务。输出更新稿与可合并数据；更新 GitHub 仓库 wqs111000/3d-robotics-insights，推送 main 后由 GitHub Actions 部署并检查。先上线，发现问题后撤下整改；不要声称用户逐条审阅或实测。';
   $('#copy-update').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(updatePrompt);toast('更新指令已复制；此操作未启动后台更新');}catch{$('#copy-text').value=updatePrompt;$('#copy-dialog').showModal();$('#copy-text').select();}});
   $('#close-copy').addEventListener('click',()=>$('#copy-dialog').close());
   document.addEventListener('keydown',e=>{if(e.key==='/'&&!dialog.open&&!$('#copy-dialog').open&&!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)){e.preventDefault();setView('radar');$('#search').focus();}});

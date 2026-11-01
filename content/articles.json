@@ -7,9 +7,9 @@
     "status": "draft",
     "public_url": "https://wqs111000.github.io/3d-robotics-insights/",
     "published_at": null,
-    "last_content_update": "2026-10-11",
-    "disclaimer": "公开资料核对不等于独立实测；内容经人工审核后发布。",
-    "publication_note": "网站由 GitHub Pages 托管；内容经审核后发布。"
+    "last_content_update": "2026-10-31",
+    "disclaimer": "内容先发布并持续检查；公开资料核对不等于本人逐条审阅或独立实测。",
+    "publication_note": "网站由 GitHub Pages 托管；先上线，发现问题后撤下整改。"
   },
   "schedule": {
     "timezone": "Asia/Shanghai",
@@ -47,7 +47,611 @@
       "description": "仿真接口、碰撞几何与系统验证"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "id": "baseline-001",
+      "title": "001 · 工程跟踪基线",
+      "date": "2026-10-11",
+      "kind": "baseline",
+      "status": "published",
+      "published_at": "2026-11-01",
+      "description": "从定位建图到具身导航，先建立可核对的工程观察对象。后续只追加实质变化。",
+      "item_ids": [
+        "fast-livo2",
+        "isaac-ros-nvblox",
+        "internnav",
+        "gsplat",
+        "isaac-sim-nav2"
+      ],
+      "number": "001",
+      "focus_title": "先把工程接口对齐，再比较技术指标。",
+      "focus_summary": "从定位建图到导航闭环，首次收录五个持续跟踪对象。本期是观察基线，不是“本周新发榜”。",
+      "snapshots": [
+        {
+          "id": "fast-livo2",
+          "topic": "slam",
+          "name": "FAST-LIVO2",
+          "title": "接入 ROS2 之前，先分清官方基线与移植分支",
+          "summary": "把定位建图当作可核查的工程基线，而不是把“公开代码”直接等同于“当前设备可复现”。",
+          "tags": [
+            "LiDAR–Visual",
+            "时间同步",
+            "ROS 迁移"
+          ],
+          "action": "核对接口",
+          "date_label": "官方代码发布",
+          "event_date": "2025-01-23",
+          "event_date_precision": "day",
+          "facts": [
+            {
+              "text": "官方 README 提供 LiDAR、IMU 与视觉融合定位建图代码，并标注代码于 2025-01-23 发布。",
+              "source_ids": [
+                "fast-repo"
+              ]
+            },
+            {
+              "text": "该 README 的构建指引使用 Ubuntu 18.04–20.04 与 catkin_make；它不是一份已验证的 ROS2 Humble 安装说明。",
+              "source_ids": [
+                "fast-repo"
+              ]
+            }
+          ],
+          "judgment": "建议先把官方实现固定为对照基线，再单独评估 ROS2 移植、时间同步和外参；不要把不同仓库的能力混在同一条结论里。",
+          "limitations": "本条未构建仓库、未审计全部分支，也未在 MID-360 或其他实机上验证。ROS2 适配状态需要针对具体移植分支另查。",
+          "experiment": "选择可公开录包并固定提交，先检查图像、点云与 IMU 时间戳及外参，再记录轨迹一致性、跟踪中断与处理时延。",
+          "watch": "官方分支变化、同步与标定说明、ROS2 移植的来源及回归测试。",
+          "sources": [
+            {
+              "id": "fast-repo",
+              "label": "作者仓库 · README",
+              "url": "https://github.com/hku-mars/FAST-LIVO2",
+              "scope": "公开 README，非全量代码审计",
+              "checked_on": "2026-10-11"
+            }
+          ],
+          "order": 1,
+          "first_added": "2026-10-11",
+          "checked_on": "2026-10-11",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "issue_ids": [
+            "baseline-001"
+          ],
+          "change_kind": "baseline",
+          "changes": [
+            {
+              "date": "2026-10-11",
+              "kind": "baseline",
+              "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+            }
+          ],
+          "publish_approved": true
+        },
+        {
+          "id": "isaac-ros-nvblox",
+          "topic": "slam",
+          "name": "Isaac ROS Nvblox",
+          "title": "从三维地图到 Nav2，先核对版本矩阵",
+          "summary": "值得研究的是深度与位姿如何转成导航代价地图；真正的接入风险往往藏在软件与硬件版本里。",
+          "tags": [
+            "RGB-D",
+            "Costmap",
+            "GPU"
+          ],
+          "action": "核对版本",
+          "date_label": "所查文档列出的版本更新",
+          "event_date": "2026-04-30",
+          "event_date_precision": "day",
+          "facts": [
+            {
+              "text": "官方文档描述了从深度与位姿构建三维场景、并为 Nav2 输出二维代价地图的流程。",
+              "source_ids": [
+                "nvblox-doc"
+              ]
+            },
+            {
+              "text": "所查 latest 页的测试平台说明面向 ROS2 Jazzy，Jetson 栏列出 Thor；页面中的 Orin 性能数据不能单独证明当前整套环境兼容 Orin。",
+              "source_ids": [
+                "nvblox-doc"
+              ]
+            }
+          ],
+          "judgment": "建议把几何地图到规划接口作为优先核对对象；已有 Humble／Orin 环境应先选择匹配的发行版，而不是直接套用 latest 指令。",
+          "limitations": "这里只核对所见文档。2026-04-30 是页面所列更新之一，不宣称它是最新发行日期；未验证旧版的兼容性、帧率和实时性。",
+          "experiment": "在版本匹配的环境中回放一段深度与位姿数据，固定体素大小，检查障碍高度切片、自由空间与代价地图更新延迟。",
+          "watch": "支持平台、JetPack／ROS 版本、动态障碍处理与 Nav2 插件接口。",
+          "sources": [
+            {
+              "id": "nvblox-doc",
+              "label": "NVIDIA · 官方文档",
+              "url": "https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_nvblox/index.html",
+              "scope": "Overview、Supported Platforms、Updates",
+              "checked_on": "2026-10-11"
+            }
+          ],
+          "order": 2,
+          "first_added": "2026-10-11",
+          "checked_on": "2026-10-11",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "issue_ids": [
+            "baseline-001"
+          ],
+          "change_kind": "baseline",
+          "changes": [
+            {
+              "date": "2026-10-11",
+              "kind": "baseline",
+              "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+            }
+          ],
+          "publish_approved": true
+        },
+        {
+          "id": "internnav",
+          "topic": "navigation",
+          "name": "InternNav",
+          "title": "比较具身导航模型，先对齐任务与控制器",
+          "summary": "同一个“导航成功率”背后可能是不同的动作空间、观测输入和执行器。先对齐条件，再讨论模型价值。",
+          "tags": [
+            "VLN",
+            "Habitat",
+            "Isaac Sim"
+          ],
+          "action": "建立对照",
+          "date_label": "README 中的版本公告",
+          "event_date": "2026-01",
+          "event_date_precision": "month",
+          "facts": [
+            {
+              "text": "作者将 InternNav 定义为基于 PyTorch、Habitat 和 Isaac Sim 的具身导航工具箱，涵盖 VLN-CE、视觉导航与连续轨迹输出。",
+              "source_ids": [
+                "internnav-repo"
+              ]
+            },
+            {
+              "text": "仓库分别列出不同任务与控制器的评测，README 的版本新闻包含 2026 年 1 月发布 v0.3.0。",
+              "source_ids": [
+                "internnav-repo"
+              ]
+            }
+          ],
+          "judgment": "建议先挑一个任务和一套控制器做可对照实验，把语言理解、局部轨迹和执行控制分开评估，避免把不同条件下的指标排成榜单。",
+          "limitations": "未下载权重、未检查完整数据授权、未复现实验，也没有 Orin 推理时延证据。版本公告仅作基线，不代表最新版本已核实。",
+          "experiment": "选定一个官方评测配置，记录观测类型、控制器与场景划分；固定初始条件，分别统计任务成功、路径效率和端到端延迟。",
+          "watch": "模型／权重发布、真实部署条件、失败恢复与统一评测接口。",
+          "sources": [
+            {
+              "id": "internnav-repo",
+              "label": "作者仓库 · README",
+              "url": "https://github.com/InternRobotics/InternNav",
+              "scope": "Introduction、News、Benchmarks；未下载权重",
+              "checked_on": "2026-10-11"
+            }
+          ],
+          "order": 3,
+          "first_added": "2026-10-11",
+          "checked_on": "2026-10-11",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "issue_ids": [
+            "baseline-001"
+          ],
+          "change_kind": "baseline",
+          "changes": [
+            {
+              "date": "2026-10-11",
+              "kind": "baseline",
+              "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+            }
+          ],
+          "publish_approved": true
+        },
+        {
+          "id": "gsplat",
+          "topic": "reconstruction",
+          "name": "gsplat",
+          "title": "渲染基线不是碰撞地图，视觉与物理要分开验证",
+          "summary": "用成熟的高斯渲染组件构建视觉对照，同时保留对几何误差与可通行性的独立检查。",
+          "tags": [
+            "3DGS",
+            "CUDA",
+            "场景表达"
+          ],
+          "action": "建立对照",
+          "date_label": "资料版本",
+          "event_date": null,
+          "event_date_precision": "unknown",
+          "facts": [
+            {
+              "text": "gsplat 文档提供带 Python 接口的 CUDA 加速三维高斯可微光栅化组件。",
+              "source_ids": [
+                "gsplat-doc"
+              ]
+            },
+            {
+              "text": "文档列出批量光栅化、深度渲染、多维特征及多 GPU 渲染等功能。",
+              "source_ids": [
+                "gsplat-doc"
+              ]
+            }
+          ],
+          "judgment": "建议将它作为视觉层的候选基线；画面逼真并不自动证明导航碰撞几何可靠，应把视觉重建与物理层分别验收。",
+          "limitations": "本条只核对 main 文档，没有锁定发行标签或执行训练。没有来源发布日期，因此不标为本周新发布，也不声称其具备完整导航能力。",
+          "experiment": "选择一组可公开 COLMAP 数据，固定相机与训练设置，记录显存、渲染耗时和视角一致性；碰撞层另外检查窄通道与表面误差。",
+          "watch": "稳定版本、深度渲染语义、训练／显存变化与场景导出接口。",
+          "sources": [
+            {
+              "id": "gsplat-doc",
+              "label": "项目 · 官方文档",
+              "url": "https://docs.gsplat.studio/main/index.html",
+              "scope": "Overview 与功能说明，main 文档",
+              "checked_on": "2026-10-11"
+            }
+          ],
+          "order": 4,
+          "first_added": "2026-10-11",
+          "checked_on": "2026-10-11",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "issue_ids": [
+            "baseline-001"
+          ],
+          "change_kind": "baseline",
+          "changes": [
+            {
+              "date": "2026-10-11",
+              "kind": "baseline",
+              "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+            }
+          ],
+          "publish_approved": true
+        },
+        {
+          "id": "isaac-sim-nav2",
+          "topic": "simulation",
+          "name": "Isaac Sim × Nav2",
+          "title": "先跑通官方导航闭环，再替换真实重建场景",
+          "summary": "先有一个可回归的完整例子，再逐项替换场景、传感器和定位来源，让问题可定位。",
+          "tags": [
+            "Nav2",
+            "Occupancy Map",
+            "Sim-to-Real"
+          ],
+          "action": "建立基线",
+          "date_label": "固定版本文档更新",
+          "event_date": "2026-06-22",
+          "event_date_precision": "day",
+          "facts": [
+            {
+              "text": "所查 Isaac Sim 6.0.1 官方教程演示了 Nav2 集成、占据地图生成与程序化导航目标发送。",
+              "source_ids": [
+                "isaac-nav-doc"
+              ]
+            },
+            {
+              "text": "教程明确涉及 ROS2 bridge、/tf、/odom、/map 等接口，并列出所需导航示例包。",
+              "source_ids": [
+                "isaac-nav-doc"
+              ]
+            }
+          ],
+          "judgment": "建议先记录官方示例的完整导航闭环，再一次只替换一个变量：场景、定位、传感器或规划参数，从而区分地图与系统问题。",
+          "limitations": "这是 6.0.1 固定版本教程的资料核对，不是最新版推荐；没有在本轮启动模拟器，也没有验证它与既有 4.5 环境兼容。",
+          "experiment": "固定一组起终点与场景，记录 TF、地图坐标、导航结果和碰撞；仅替换场景几何后重复，比较路径与失败位置。",
+          "watch": "版本化教程、桥接接口、传感器时间与场景碰撞配置。",
+          "sources": [
+            {
+              "id": "isaac-nav-doc",
+              "label": "NVIDIA · 6.0.1 官方教程",
+              "url": "https://docs.isaacsim.omniverse.nvidia.com/6.0.1/ros2_tutorials/tutorial_ros2_navigation.html",
+              "scope": "ROS 2 Navigation；页脚更新时间 2026-06-22",
+              "checked_on": "2026-10-11"
+            }
+          ],
+          "order": 5,
+          "first_added": "2026-10-11",
+          "checked_on": "2026-10-11",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "issue_ids": [
+            "baseline-001"
+          ],
+          "change_kind": "baseline",
+          "changes": [
+            {
+              "date": "2026-10-11",
+              "kind": "baseline",
+              "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+            }
+          ],
+          "publish_approved": true
+        }
+      ]
+    },
+    {
+      "id": "issue-004",
+      "title": "004 · 三维重建与具身导航观察",
+      "date": "2026-10-31",
+      "kind": "update",
+      "status": "published",
+      "published_at": "2026-11-01",
+      "description": "空间智能的价值体现在可用几何、受限通信、空间记忆和端侧闭环能力。",
+      "number": "004",
+      "focus_title": "从可用几何到端侧导航，关注工程闭环。",
+      "focus_summary": "本期整理 GOFish、SKiD-SLAM、导航记忆与 OpenFlyV2，区分作者报告和独立验证。",
+      "item_ids": [
+        "gofish",
+        "skid-slam",
+        "navigator-memory",
+        "openflyv2"
+      ],
+      "snapshots": [
+        {
+          "id": "gofish",
+          "topic": "reconstruction",
+          "name": "GOFish",
+          "title": "从鱼眼重建走向可用的仿真资产",
+          "summary": "从鱼眼图像重建全视场 Gaussian 场景，并从同一表示提取网格；碰撞可用性仍需独立验证。",
+          "action": "持续跟踪",
+          "date_label": "论文提交",
+          "event_date": "2026-10-27",
+          "event_date_precision": "day",
+          "facts": [
+            {
+              "text": "项目作者提出支持超过 180° 视场的鱼眼高斯重建，并从相同场景表示中提取网格。",
+              "source_ids": [
+                "s0"
+              ]
+            }
+          ],
+          "judgment": "建议先选公开场景，检查重建质量、网格完整性和尺度，进一步验证碰撞。",
+          "limitations": "未运行代码或测试碰撞；使用条件及许可证应在复现前核对。",
+          "experiment": "选择公开样例，测量网格空洞、尺度和窄通道碰撞效果。",
+          "watch": "跟踪作者代码、数据、许可与可复现条件。",
+          "sources": [
+            {
+              "id": "s0",
+              "label": "论文",
+              "url": "https://arxiv.org/abs/2610.37818",
+              "scope": "作者论文或项目资料",
+              "checked_on": "2026-11-01"
+            },
+            {
+              "id": "s1",
+              "label": "作者代码",
+              "url": "https://github.com/tuallen/GOFish",
+              "scope": "作者论文或项目资料",
+              "checked_on": "2026-11-01"
+            }
+          ],
+          "order": 1,
+          "first_added": "2026-10-31",
+          "checked_on": "2026-11-01",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "publish_approved": true,
+          "independently_tested": false,
+          "issue_ids": [
+            "issue-004"
+          ],
+          "change_kind": "update",
+          "changes": [
+            {
+              "date": "2026-10-31",
+              "kind": "update",
+              "note": "根据第 004 期公开资料整理；未经独立实测。"
+            }
+          ],
+          "tags": [
+            "3DGS",
+            "鱼眼",
+            "网格"
+          ]
+        },
+        {
+          "id": "skid-slam",
+          "topic": "slam",
+          "name": "SKiD-SLAM",
+          "title": "受限通信下的多机器人激光建图",
+          "summary": "资源受限的分布式多机器人 LiDAR 建图，重点考察低带宽条件下的地图融合。",
+          "action": "持续跟踪",
+          "date_label": "论文提交",
+          "event_date": "2026-10-28",
+          "event_date_precision": "day",
+          "facts": [
+            {
+              "text": "作者报告在 250 kbps 的机器人间通信预算下完成分布式建图，并展示实地部署。",
+              "source_ids": [
+                "s0"
+              ]
+            }
+          ],
+          "judgment": "优先用官方数据回放检查跨机器人回环、配准与地图合并。",
+          "limitations": "10 月 28 日为 arXiv 提交日期，不代表算法首次提出；未验证 MID-360 适配或实机运行。",
+          "experiment": "使用官方数据重放，记录跨机器人匹配成功率、通信量与地图一致性。",
+          "watch": "跟踪作者代码、数据、许可与可复现条件。",
+          "sources": [
+            {
+              "id": "s0",
+              "label": "论文",
+              "url": "https://arxiv.org/abs/2610.38141",
+              "scope": "作者论文或项目资料",
+              "checked_on": "2026-11-01"
+            },
+            {
+              "id": "s1",
+              "label": "作者项目页",
+              "url": "https://sparolab.github.io/research/skid_slam/",
+              "scope": "作者论文或项目资料",
+              "checked_on": "2026-11-01"
+            },
+            {
+              "id": "s2",
+              "label": "作者代码",
+              "url": "https://github.com/sparolab/SKiD-SLAM",
+              "scope": "作者论文或项目资料",
+              "checked_on": "2026-11-01"
+            }
+          ],
+          "order": 2,
+          "first_added": "2026-10-31",
+          "checked_on": "2026-11-01",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "publish_approved": true,
+          "independently_tested": false,
+          "issue_ids": [
+            "issue-004"
+          ],
+          "change_kind": "update",
+          "changes": [
+            {
+              "date": "2026-10-31",
+              "kind": "update",
+              "note": "根据第 004 期公开资料整理；未经独立实测。"
+            }
+          ],
+          "tags": [
+            "多机器人",
+            "LiDAR SLAM",
+            "低带宽"
+          ]
+        },
+        {
+          "id": "navigator-memory",
+          "topic": "navigation",
+          "name": "What Should a Navigator Remember?",
+          "title": "零样本导航中，机器人应该记住什么？",
+          "summary": "将任务进度、观察历史与空间几何分开维护，分析导航中的记忆设计。",
+          "action": "持续跟踪",
+          "date_label": "论文提交",
+          "event_date": "2026-10-28",
+          "event_date_precision": "day",
+          "facts": [
+            {
+              "text": "作者提出针对零样本视觉语言导航的时空记忆设计，分别保留任务、观察历史与几何信息。",
+              "source_ids": [
+                "s0"
+              ]
+            }
+          ],
+          "judgment": "优先研究记忆结构在效率和失败恢复中的作用，不以模型规模替代系统评估。",
+          "limitations": "尚未复现；代码、权重及具体平台兼容性未充分核实。",
+          "experiment": "固定场景和任务，分别移除任务、时间和空间记忆，对比成功率、路径长度和上下文开销。",
+          "watch": "跟踪作者代码、数据、许可与可复现条件。",
+          "sources": [
+            {
+              "id": "s0",
+              "label": "论文",
+              "url": "https://arxiv.org/abs/2610.38318",
+              "scope": "作者论文或项目资料",
+              "checked_on": "2026-11-01"
+            }
+          ],
+          "order": 3,
+          "first_added": "2026-10-31",
+          "checked_on": "2026-11-01",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "publish_approved": true,
+          "independently_tested": false,
+          "issue_ids": [
+            "issue-004"
+          ],
+          "change_kind": "update",
+          "changes": [
+            {
+              "date": "2026-10-31",
+              "kind": "update",
+              "note": "根据第 004 期公开资料整理；未经独立实测。"
+            }
+          ],
+          "tags": [
+            "VLN",
+            "空间记忆",
+            "零样本"
+          ]
+        },
+        {
+          "id": "openflyv2",
+          "topic": "navigation",
+          "name": "OpenFlyV2",
+          "title": "端侧推理速度不等于可靠部署",
+          "summary": "作者报告在 Jetson Orin NX 生成航路点，端侧部署价值需结合成功率和完整链路评估。",
+          "action": "持续跟踪",
+          "date_label": "论文提交",
+          "event_date": "2026-10-29",
+          "event_date_precision": "day",
+          "facts": [
+            {
+              "text": "作者报告模型在 Jetson Orin NX 上以 10 Hz 生成航路点。",
+              "source_ids": [
+                "s0"
+              ]
+            }
+          ],
+          "judgment": "作为端侧视觉语言导航案例跟踪，先核查资源需求和开源状态。",
+          "limitations": "这是作者报告，未独立实测；代码和权重是否开放需要在复现前再次核查。",
+          "experiment": "先核对代码、权重、传感器和飞行平台要求，再在仿真中测量延迟与失败模式。",
+          "watch": "跟踪作者代码、数据、许可与可复现条件。",
+          "sources": [
+            {
+              "id": "s0",
+              "label": "论文",
+              "url": "https://arxiv.org/abs/2610.39287",
+              "scope": "作者论文或项目资料",
+              "checked_on": "2026-11-01"
+            },
+            {
+              "id": "s1",
+              "label": "作者代码仓库",
+              "url": "https://github.com/Ideal-ljl/AeroBrain",
+              "scope": "作者论文或项目资料",
+              "checked_on": "2026-11-01"
+            }
+          ],
+          "order": 4,
+          "first_added": "2026-10-31",
+          "checked_on": "2026-11-01",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "publish_approved": true,
+          "independently_tested": false,
+          "issue_ids": [
+            "issue-004"
+          ],
+          "change_kind": "update",
+          "changes": [
+            {
+              "date": "2026-10-31",
+              "kind": "update",
+              "note": "根据第 004 期公开资料整理；未经独立实测。"
+            }
+          ],
+          "tags": [
+            "VLA",
+            "无人机",
+            "Jetson"
+          ]
+        }
+      ]
+    }
+  ],
   "topic_state": {
     "slam": {
       "baseline_established_on": "2026-10-11",
@@ -74,6 +678,569 @@
       "coverage": "selected_sources_only"
     }
   },
-  "items": [],
+  "items": [
+    {
+      "id": "gofish",
+      "topic": "reconstruction",
+      "name": "GOFish",
+      "title": "从鱼眼重建走向可用的仿真资产",
+      "summary": "从鱼眼图像重建全视场 Gaussian 场景，并从同一表示提取网格；碰撞可用性仍需独立验证。",
+      "action": "持续跟踪",
+      "date_label": "论文提交",
+      "event_date": "2026-10-27",
+      "event_date_precision": "day",
+      "facts": [
+        {
+          "text": "项目作者提出支持超过 180° 视场的鱼眼高斯重建，并从相同场景表示中提取网格。",
+          "source_ids": [
+            "s0"
+          ]
+        }
+      ],
+      "judgment": "建议先选公开场景，检查重建质量、网格完整性和尺度，进一步验证碰撞。",
+      "limitations": "未运行代码或测试碰撞；使用条件及许可证应在复现前核对。",
+      "experiment": "选择公开样例，测量网格空洞、尺度和窄通道碰撞效果。",
+      "watch": "跟踪作者代码、数据、许可与可复现条件。",
+      "sources": [
+        {
+          "id": "s0",
+          "label": "论文",
+          "url": "https://arxiv.org/abs/2610.37818",
+          "scope": "作者论文或项目资料",
+          "checked_on": "2026-11-01"
+        },
+        {
+          "id": "s1",
+          "label": "作者代码",
+          "url": "https://github.com/tuallen/GOFish",
+          "scope": "作者论文或项目资料",
+          "checked_on": "2026-11-01"
+        }
+      ],
+      "order": 1,
+      "first_added": "2026-10-31",
+      "checked_on": "2026-11-01",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "publish_approved": true,
+      "independently_tested": false,
+      "issue_ids": [
+        "issue-004"
+      ],
+      "change_kind": "update",
+      "changes": [
+        {
+          "date": "2026-10-31",
+          "kind": "update",
+          "note": "根据第 004 期公开资料整理；未经独立实测。"
+        }
+      ],
+      "tags": [
+        "3DGS",
+        "鱼眼",
+        "网格"
+      ]
+    },
+    {
+      "id": "skid-slam",
+      "topic": "slam",
+      "name": "SKiD-SLAM",
+      "title": "受限通信下的多机器人激光建图",
+      "summary": "资源受限的分布式多机器人 LiDAR 建图，重点考察低带宽条件下的地图融合。",
+      "action": "持续跟踪",
+      "date_label": "论文提交",
+      "event_date": "2026-10-28",
+      "event_date_precision": "day",
+      "facts": [
+        {
+          "text": "作者报告在 250 kbps 的机器人间通信预算下完成分布式建图，并展示实地部署。",
+          "source_ids": [
+            "s0"
+          ]
+        }
+      ],
+      "judgment": "优先用官方数据回放检查跨机器人回环、配准与地图合并。",
+      "limitations": "10 月 28 日为 arXiv 提交日期，不代表算法首次提出；未验证 MID-360 适配或实机运行。",
+      "experiment": "使用官方数据重放，记录跨机器人匹配成功率、通信量与地图一致性。",
+      "watch": "跟踪作者代码、数据、许可与可复现条件。",
+      "sources": [
+        {
+          "id": "s0",
+          "label": "论文",
+          "url": "https://arxiv.org/abs/2610.38141",
+          "scope": "作者论文或项目资料",
+          "checked_on": "2026-11-01"
+        },
+        {
+          "id": "s1",
+          "label": "作者项目页",
+          "url": "https://sparolab.github.io/research/skid_slam/",
+          "scope": "作者论文或项目资料",
+          "checked_on": "2026-11-01"
+        },
+        {
+          "id": "s2",
+          "label": "作者代码",
+          "url": "https://github.com/sparolab/SKiD-SLAM",
+          "scope": "作者论文或项目资料",
+          "checked_on": "2026-11-01"
+        }
+      ],
+      "order": 2,
+      "first_added": "2026-10-31",
+      "checked_on": "2026-11-01",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "publish_approved": true,
+      "independently_tested": false,
+      "issue_ids": [
+        "issue-004"
+      ],
+      "change_kind": "update",
+      "changes": [
+        {
+          "date": "2026-10-31",
+          "kind": "update",
+          "note": "根据第 004 期公开资料整理；未经独立实测。"
+        }
+      ],
+      "tags": [
+        "多机器人",
+        "LiDAR SLAM",
+        "低带宽"
+      ]
+    },
+    {
+      "id": "navigator-memory",
+      "topic": "navigation",
+      "name": "What Should a Navigator Remember?",
+      "title": "零样本导航中，机器人应该记住什么？",
+      "summary": "将任务进度、观察历史与空间几何分开维护，分析导航中的记忆设计。",
+      "action": "持续跟踪",
+      "date_label": "论文提交",
+      "event_date": "2026-10-28",
+      "event_date_precision": "day",
+      "facts": [
+        {
+          "text": "作者提出针对零样本视觉语言导航的时空记忆设计，分别保留任务、观察历史与几何信息。",
+          "source_ids": [
+            "s0"
+          ]
+        }
+      ],
+      "judgment": "优先研究记忆结构在效率和失败恢复中的作用，不以模型规模替代系统评估。",
+      "limitations": "尚未复现；代码、权重及具体平台兼容性未充分核实。",
+      "experiment": "固定场景和任务，分别移除任务、时间和空间记忆，对比成功率、路径长度和上下文开销。",
+      "watch": "跟踪作者代码、数据、许可与可复现条件。",
+      "sources": [
+        {
+          "id": "s0",
+          "label": "论文",
+          "url": "https://arxiv.org/abs/2610.38318",
+          "scope": "作者论文或项目资料",
+          "checked_on": "2026-11-01"
+        }
+      ],
+      "order": 3,
+      "first_added": "2026-10-31",
+      "checked_on": "2026-11-01",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "publish_approved": true,
+      "independently_tested": false,
+      "issue_ids": [
+        "issue-004"
+      ],
+      "change_kind": "update",
+      "changes": [
+        {
+          "date": "2026-10-31",
+          "kind": "update",
+          "note": "根据第 004 期公开资料整理；未经独立实测。"
+        }
+      ],
+      "tags": [
+        "VLN",
+        "空间记忆",
+        "零样本"
+      ]
+    },
+    {
+      "id": "openflyv2",
+      "topic": "navigation",
+      "name": "OpenFlyV2",
+      "title": "端侧推理速度不等于可靠部署",
+      "summary": "作者报告在 Jetson Orin NX 生成航路点，端侧部署价值需结合成功率和完整链路评估。",
+      "action": "持续跟踪",
+      "date_label": "论文提交",
+      "event_date": "2026-10-29",
+      "event_date_precision": "day",
+      "facts": [
+        {
+          "text": "作者报告模型在 Jetson Orin NX 上以 10 Hz 生成航路点。",
+          "source_ids": [
+            "s0"
+          ]
+        }
+      ],
+      "judgment": "作为端侧视觉语言导航案例跟踪，先核查资源需求和开源状态。",
+      "limitations": "这是作者报告，未独立实测；代码和权重是否开放需要在复现前再次核查。",
+      "experiment": "先核对代码、权重、传感器和飞行平台要求，再在仿真中测量延迟与失败模式。",
+      "watch": "跟踪作者代码、数据、许可与可复现条件。",
+      "sources": [
+        {
+          "id": "s0",
+          "label": "论文",
+          "url": "https://arxiv.org/abs/2610.39287",
+          "scope": "作者论文或项目资料",
+          "checked_on": "2026-11-01"
+        },
+        {
+          "id": "s1",
+          "label": "作者代码仓库",
+          "url": "https://github.com/Ideal-ljl/AeroBrain",
+          "scope": "作者论文或项目资料",
+          "checked_on": "2026-11-01"
+        }
+      ],
+      "order": 4,
+      "first_added": "2026-10-31",
+      "checked_on": "2026-11-01",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "publish_approved": true,
+      "independently_tested": false,
+      "issue_ids": [
+        "issue-004"
+      ],
+      "change_kind": "update",
+      "changes": [
+        {
+          "date": "2026-10-31",
+          "kind": "update",
+          "note": "根据第 004 期公开资料整理；未经独立实测。"
+        }
+      ],
+      "tags": [
+        "VLA",
+        "无人机",
+        "Jetson"
+      ]
+    },
+    {
+      "id": "fast-livo2",
+      "topic": "slam",
+      "name": "FAST-LIVO2",
+      "title": "接入 ROS2 之前，先分清官方基线与移植分支",
+      "summary": "把定位建图当作可核查的工程基线，而不是把“公开代码”直接等同于“当前设备可复现”。",
+      "tags": [
+        "LiDAR–Visual",
+        "时间同步",
+        "ROS 迁移"
+      ],
+      "action": "核对接口",
+      "date_label": "官方代码发布",
+      "event_date": "2025-01-23",
+      "event_date_precision": "day",
+      "facts": [
+        {
+          "text": "官方 README 提供 LiDAR、IMU 与视觉融合定位建图代码，并标注代码于 2025-01-23 发布。",
+          "source_ids": [
+            "fast-repo"
+          ]
+        },
+        {
+          "text": "该 README 的构建指引使用 Ubuntu 18.04–20.04 与 catkin_make；它不是一份已验证的 ROS2 Humble 安装说明。",
+          "source_ids": [
+            "fast-repo"
+          ]
+        }
+      ],
+      "judgment": "建议先把官方实现固定为对照基线，再单独评估 ROS2 移植、时间同步和外参；不要把不同仓库的能力混在同一条结论里。",
+      "limitations": "本条未构建仓库、未审计全部分支，也未在 MID-360 或其他实机上验证。ROS2 适配状态需要针对具体移植分支另查。",
+      "experiment": "选择可公开录包并固定提交，先检查图像、点云与 IMU 时间戳及外参，再记录轨迹一致性、跟踪中断与处理时延。",
+      "watch": "官方分支变化、同步与标定说明、ROS2 移植的来源及回归测试。",
+      "sources": [
+        {
+          "id": "fast-repo",
+          "label": "作者仓库 · README",
+          "url": "https://github.com/hku-mars/FAST-LIVO2",
+          "scope": "公开 README，非全量代码审计",
+          "checked_on": "2026-10-11"
+        }
+      ],
+      "order": 1,
+      "first_added": "2026-10-11",
+      "checked_on": "2026-10-11",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "issue_ids": [
+        "baseline-001"
+      ],
+      "change_kind": "baseline",
+      "changes": [
+        {
+          "date": "2026-10-11",
+          "kind": "baseline",
+          "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+        }
+      ],
+      "publish_approved": true
+    },
+    {
+      "id": "isaac-ros-nvblox",
+      "topic": "slam",
+      "name": "Isaac ROS Nvblox",
+      "title": "从三维地图到 Nav2，先核对版本矩阵",
+      "summary": "值得研究的是深度与位姿如何转成导航代价地图；真正的接入风险往往藏在软件与硬件版本里。",
+      "tags": [
+        "RGB-D",
+        "Costmap",
+        "GPU"
+      ],
+      "action": "核对版本",
+      "date_label": "所查文档列出的版本更新",
+      "event_date": "2026-04-30",
+      "event_date_precision": "day",
+      "facts": [
+        {
+          "text": "官方文档描述了从深度与位姿构建三维场景、并为 Nav2 输出二维代价地图的流程。",
+          "source_ids": [
+            "nvblox-doc"
+          ]
+        },
+        {
+          "text": "所查 latest 页的测试平台说明面向 ROS2 Jazzy，Jetson 栏列出 Thor；页面中的 Orin 性能数据不能单独证明当前整套环境兼容 Orin。",
+          "source_ids": [
+            "nvblox-doc"
+          ]
+        }
+      ],
+      "judgment": "建议把几何地图到规划接口作为优先核对对象；已有 Humble／Orin 环境应先选择匹配的发行版，而不是直接套用 latest 指令。",
+      "limitations": "这里只核对所见文档。2026-04-30 是页面所列更新之一，不宣称它是最新发行日期；未验证旧版的兼容性、帧率和实时性。",
+      "experiment": "在版本匹配的环境中回放一段深度与位姿数据，固定体素大小，检查障碍高度切片、自由空间与代价地图更新延迟。",
+      "watch": "支持平台、JetPack／ROS 版本、动态障碍处理与 Nav2 插件接口。",
+      "sources": [
+        {
+          "id": "nvblox-doc",
+          "label": "NVIDIA · 官方文档",
+          "url": "https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_nvblox/index.html",
+          "scope": "Overview、Supported Platforms、Updates",
+          "checked_on": "2026-10-11"
+        }
+      ],
+      "order": 2,
+      "first_added": "2026-10-11",
+      "checked_on": "2026-10-11",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "issue_ids": [
+        "baseline-001"
+      ],
+      "change_kind": "baseline",
+      "changes": [
+        {
+          "date": "2026-10-11",
+          "kind": "baseline",
+          "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+        }
+      ],
+      "publish_approved": true
+    },
+    {
+      "id": "internnav",
+      "topic": "navigation",
+      "name": "InternNav",
+      "title": "比较具身导航模型，先对齐任务与控制器",
+      "summary": "同一个“导航成功率”背后可能是不同的动作空间、观测输入和执行器。先对齐条件，再讨论模型价值。",
+      "tags": [
+        "VLN",
+        "Habitat",
+        "Isaac Sim"
+      ],
+      "action": "建立对照",
+      "date_label": "README 中的版本公告",
+      "event_date": "2026-01",
+      "event_date_precision": "month",
+      "facts": [
+        {
+          "text": "作者将 InternNav 定义为基于 PyTorch、Habitat 和 Isaac Sim 的具身导航工具箱，涵盖 VLN-CE、视觉导航与连续轨迹输出。",
+          "source_ids": [
+            "internnav-repo"
+          ]
+        },
+        {
+          "text": "仓库分别列出不同任务与控制器的评测，README 的版本新闻包含 2026 年 1 月发布 v0.3.0。",
+          "source_ids": [
+            "internnav-repo"
+          ]
+        }
+      ],
+      "judgment": "建议先挑一个任务和一套控制器做可对照实验，把语言理解、局部轨迹和执行控制分开评估，避免把不同条件下的指标排成榜单。",
+      "limitations": "未下载权重、未检查完整数据授权、未复现实验，也没有 Orin 推理时延证据。版本公告仅作基线，不代表最新版本已核实。",
+      "experiment": "选定一个官方评测配置，记录观测类型、控制器与场景划分；固定初始条件，分别统计任务成功、路径效率和端到端延迟。",
+      "watch": "模型／权重发布、真实部署条件、失败恢复与统一评测接口。",
+      "sources": [
+        {
+          "id": "internnav-repo",
+          "label": "作者仓库 · README",
+          "url": "https://github.com/InternRobotics/InternNav",
+          "scope": "Introduction、News、Benchmarks；未下载权重",
+          "checked_on": "2026-10-11"
+        }
+      ],
+      "order": 3,
+      "first_added": "2026-10-11",
+      "checked_on": "2026-10-11",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "issue_ids": [
+        "baseline-001"
+      ],
+      "change_kind": "baseline",
+      "changes": [
+        {
+          "date": "2026-10-11",
+          "kind": "baseline",
+          "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+        }
+      ],
+      "publish_approved": true
+    },
+    {
+      "id": "gsplat",
+      "topic": "reconstruction",
+      "name": "gsplat",
+      "title": "渲染基线不是碰撞地图，视觉与物理要分开验证",
+      "summary": "用成熟的高斯渲染组件构建视觉对照，同时保留对几何误差与可通行性的独立检查。",
+      "tags": [
+        "3DGS",
+        "CUDA",
+        "场景表达"
+      ],
+      "action": "建立对照",
+      "date_label": "资料版本",
+      "event_date": null,
+      "event_date_precision": "unknown",
+      "facts": [
+        {
+          "text": "gsplat 文档提供带 Python 接口的 CUDA 加速三维高斯可微光栅化组件。",
+          "source_ids": [
+            "gsplat-doc"
+          ]
+        },
+        {
+          "text": "文档列出批量光栅化、深度渲染、多维特征及多 GPU 渲染等功能。",
+          "source_ids": [
+            "gsplat-doc"
+          ]
+        }
+      ],
+      "judgment": "建议将它作为视觉层的候选基线；画面逼真并不自动证明导航碰撞几何可靠，应把视觉重建与物理层分别验收。",
+      "limitations": "本条只核对 main 文档，没有锁定发行标签或执行训练。没有来源发布日期，因此不标为本周新发布，也不声称其具备完整导航能力。",
+      "experiment": "选择一组可公开 COLMAP 数据，固定相机与训练设置，记录显存、渲染耗时和视角一致性；碰撞层另外检查窄通道与表面误差。",
+      "watch": "稳定版本、深度渲染语义、训练／显存变化与场景导出接口。",
+      "sources": [
+        {
+          "id": "gsplat-doc",
+          "label": "项目 · 官方文档",
+          "url": "https://docs.gsplat.studio/main/index.html",
+          "scope": "Overview 与功能说明，main 文档",
+          "checked_on": "2026-10-11"
+        }
+      ],
+      "order": 4,
+      "first_added": "2026-10-11",
+      "checked_on": "2026-10-11",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "issue_ids": [
+        "baseline-001"
+      ],
+      "change_kind": "baseline",
+      "changes": [
+        {
+          "date": "2026-10-11",
+          "kind": "baseline",
+          "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+        }
+      ],
+      "publish_approved": true
+    },
+    {
+      "id": "isaac-sim-nav2",
+      "topic": "simulation",
+      "name": "Isaac Sim × Nav2",
+      "title": "先跑通官方导航闭环，再替换真实重建场景",
+      "summary": "先有一个可回归的完整例子，再逐项替换场景、传感器和定位来源，让问题可定位。",
+      "tags": [
+        "Nav2",
+        "Occupancy Map",
+        "Sim-to-Real"
+      ],
+      "action": "建立基线",
+      "date_label": "固定版本文档更新",
+      "event_date": "2026-06-22",
+      "event_date_precision": "day",
+      "facts": [
+        {
+          "text": "所查 Isaac Sim 6.0.1 官方教程演示了 Nav2 集成、占据地图生成与程序化导航目标发送。",
+          "source_ids": [
+            "isaac-nav-doc"
+          ]
+        },
+        {
+          "text": "教程明确涉及 ROS2 bridge、/tf、/odom、/map 等接口，并列出所需导航示例包。",
+          "source_ids": [
+            "isaac-nav-doc"
+          ]
+        }
+      ],
+      "judgment": "建议先记录官方示例的完整导航闭环，再一次只替换一个变量：场景、定位、传感器或规划参数，从而区分地图与系统问题。",
+      "limitations": "这是 6.0.1 固定版本教程的资料核对，不是最新版推荐；没有在本轮启动模拟器，也没有验证它与既有 4.5 环境兼容。",
+      "experiment": "固定一组起终点与场景，记录 TF、地图坐标、导航结果和碰撞；仅替换场景几何后重复，比较路径与失败位置。",
+      "watch": "版本化教程、桥接接口、传感器时间与场景碰撞配置。",
+      "sources": [
+        {
+          "id": "isaac-nav-doc",
+          "label": "NVIDIA · 6.0.1 官方教程",
+          "url": "https://docs.isaacsim.omniverse.nvidia.com/6.0.1/ros2_tutorials/tutorial_ros2_navigation.html",
+          "scope": "ROS 2 Navigation；页脚更新时间 2026-06-22",
+          "checked_on": "2026-10-11"
+        }
+      ],
+      "order": 5,
+      "first_added": "2026-10-11",
+      "checked_on": "2026-10-11",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "issue_ids": [
+        "baseline-001"
+      ],
+      "change_kind": "baseline",
+      "changes": [
+        {
+          "date": "2026-10-11",
+          "kind": "baseline",
+          "note": "建立公开资料基线，未进行历史提交差异审计或实机验证。"
+        }
+      ],
+      "publish_approved": true
+    }
+  ],
   "update_log": []
 }
