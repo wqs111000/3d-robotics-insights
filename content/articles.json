@@ -4,12 +4,19 @@
     "name": "3D & Robotics Insights",
     "subtitle": "三维与机器人技术观察",
     "author_label": "个人技术观察 · GPT 辅助整理",
-    "status": "draft",
+    "status": "published",
     "public_url": "https://wqs111000.github.io/3d-robotics-insights/",
-    "published_at": null,
+    "published_at": "2026-11-01",
     "last_content_update": "2026-10-31",
     "disclaimer": "内容先发布并持续检查；公开资料核对不等于本人逐条审阅或独立实测。",
-    "publication_note": "网站由 GitHub Pages 托管；先上线，发现问题后撤下整改。"
+    "publication_note": "网站由 GitHub Pages 托管；先上线，发现问题后撤下整改。",
+    "published_at_note": "沿用现有两期记录的发布日期，非经核实的站点首次部署时间。",
+    "last_verified_deployment": {
+      "commit": "6867f903c93ca518e67da14394f728e72d09e122",
+      "completed_at": "2026-11-02T17:40:16+08:00",
+      "workflow_run": "https://github.com/wqs111000/3d-robotics-insights/actions/runs/41422494932",
+      "note": "部署及线上两期编号已核验；此记录为历史核验，不自动反映后续部署。"
+    }
   },
   "schedule": {
     "timezone": "Asia/Shanghai",
@@ -18,8 +25,9 @@
     "manual_trigger": true,
     "content_task_status": "enabled",
     "first_run": "2026-10-17T10:00:00+08:00",
-    "publishing_status": "not_connected",
-    "cost_policy": "仅使用现有 ChatGPT 额度；不购买额外 API、credits、托管或域名。"
+    "publishing_status": "configured_unverified",
+    "cost_policy": "仅使用现有 ChatGPT 额度；不购买额外 API、credits、托管或域名。",
+    "publishing_note": "ChatGPT 任务配置为有权限时更新 GitHub 并部署；最近一次运行仅生成待发布内容，更新后的自动发布链路尚未验证。若权限不足需人工提交并核验部署。"
   },
   "topics": [
     {

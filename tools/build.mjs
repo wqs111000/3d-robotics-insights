@@ -8,4 +8,4 @@ for (const i of d.items) {
 for(const issue of d.issues){if(issue.snapshots?.some(i=>i.publish_approved!==true))throw Error('Archive snapshot requires publication approval');}
 const json=JSON.stringify(d).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
 const html=read('template.html').replace('/*__CSS__*/',()=>read('styles.css')).replace('/*__DATA__*/',()=>json).replace('/*__JS__*/',()=>read('app.js'));
-fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/index.html',html);fs.writeFileSync('dist/.nojekyll','');console.log(`Built ${d.items.length} reviewed entries`);
+fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/index.html',html);fs.writeFileSync('dist/.nojekyll','');console.log(`Built ${d.items.length} publication-approved entries`);
