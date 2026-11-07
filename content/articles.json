@@ -7,9 +7,9 @@
     "status": "published",
     "public_url": "https://wqs111000.github.io/3d-robotics-insights/",
     "published_at": "2026-11-01",
-    "last_content_update": "2026-10-31",
+    "last_content_update": "2026-11-07",
     "disclaimer": "内容先发布并持续检查；公开资料核对不等于本人逐条审阅或独立实测。",
-    "publication_note": "网站由 GitHub Pages 托管；先上线，发现问题后撤下整改。",
+    "publication_note": "沿用现有 GitHub Pages 站点，新增内容允许公开；发布成功以 Actions 与公开网址核验为准。",
     "published_at_note": "沿用现有两期记录的发布日期，非经核实的站点首次部署时间。",
     "last_verified_deployment": {
       "commit": "6867f903c93ca518e67da14394f728e72d09e122",
@@ -27,7 +27,7 @@
     "first_run": "2026-10-17T10:00:00+08:00",
     "publishing_status": "configured_unverified",
     "cost_policy": "仅使用现有 ChatGPT 额度；不购买额外 API、credits、托管或域名。",
-    "publishing_note": "ChatGPT 任务配置为有权限时更新 GitHub 并部署；最近一次运行仅生成待发布内容，更新后的自动发布链路尚未验证。若权限不足需人工提交并核验部署。"
+    "publishing_note": "研究、仓库内容提交和 GitHub Pages 完成属于不同状态；只在核查公开网站后标记部署成功。"
   },
   "topics": [
     {
@@ -658,35 +658,601 @@
           ]
         }
       ]
+    },
+    {
+      "id": "issue-2026-11-07",
+      "number": "003",
+      "title": "003 · 从尺度约束到安全导航执行",
+      "date": "2026-11-07",
+      "kind": "update",
+      "status": "pending_deployment_verification",
+      "published_at": null,
+      "description": "研究尺度漂移、GNSS 不稳定、VLM 物理安全与人群导航的工程接口。",
+      "focus_title": "导航模型越智能，越需要清晰的执行边界。",
+      "focus_summary": "精选四项 11 月新研究；对照几何一致性、语义指令、物理安全、语义 BEV，不把作者报告当成独立实测。",
+      "item_ids": [
+        "arxiv-2611-06308",
+        "arxiv-2611-05129",
+        "arxiv-2611-04972",
+        "arxiv-2611-03498"
+      ],
+      "snapshots": [
+        {
+          "id": "arxiv-2611-06308",
+          "topic": "slam",
+          "name": "Scale Anchoring for VGGT-Based SLAM",
+          "title": "尺度锚定与回环约束：学习式 SLAM 仍需要全局一致性",
+          "event_date": "2026-11-04",
+          "event_date_precision": "day",
+          "date_label": "arXiv v1 提交",
+          "summary": "对 VGGT-SLAM 2.0 引入固定根尺度锚定和短序列验证的直接回环连接，针对跨子地图尺度漂移。",
+          "action": "研究消融设计",
+          "facts": [
+            {
+              "text": "2026-11-04 首次提交 arXiv，标注 Submitted to ICRA 2027，而非已获录用。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者将固定根尺度锚定与跨子地图的序列一致性回环检查分别建模，使用 Sim(3) 因子抑制全局漂移。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者报告九条 TUM 序列平均 Sim(3) ATE 从 0.1018 m 降到 0.0451 m，属于特定数据集与基线下的作者结果。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "将尺度锚定与回环验证分开做消融，能比直接更换 SLAM 主干更清楚地定位收益。对本来已有 LiDAR/IMU 度量尺度的系统，效果不能简单外推。",
+          "limitations": "本轮未确认配套官方代码或复现配置，尚未独立测试；模型显存和长序列性能未核实。",
+          "experiment": "先固定公开序列和 VGGT-SLAM 2.0 基线；分别关闭尺度锚定、回环验证，比较 Sim(3) ATE、尺度漂移、错误回环和峰值显存。没有代码先设计评测协议。",
+          "watch": "继续检查官方实现开放情况、长序列动态场景的错误回环与尺度稳定性。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.06308",
+              "scope": "论文与作者报告，非独立代码审计",
+              "checked_on": "2026-11-07"
+            }
+          ],
+          "tags": [
+            "VGGT",
+            "Sim(3)",
+            "尺度漂移"
+          ],
+          "order": 1,
+          "first_added": "2026-11-07",
+          "checked_on": "2026-11-07",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-07"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-07",
+              "kind": "new_paper",
+              "note": "2026-11-07 首次收录并核对论文提交日期；非本站作者实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-05129",
+          "topic": "navigation",
+          "name": "WayTrace",
+          "title": "公里级户外导航：将地图指令转为图像轨迹",
+          "event_date": "2026-11-03",
+          "event_date_precision": "day",
+          "date_label": "arXiv v1 提交",
+          "summary": "网页地图指令→高层 VLM 原子语义命令→图像路径预测→底层策略跟踪，目标是减少对精确 GNSS 路点的依赖。",
+          "action": "优先研究接口",
+          "facts": [
+            {
+              "text": "2026-11-03 首次提交 arXiv，论文标注 Under Review；并非已获录用。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "高层根据网络地图、卫星图和相机图像选择原子语义指令，机载轨迹预测器生成图像路径，强化学习策略负责实际跟踪。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者报告模拟中 7 m RMS 漂移 GNSS 下成功率 63%；三条最长 426 m 的城市任务全自主完成，而另一条 1.37 km 实机任务有两次短暂人工干预。代码、模型、基准及数据在论文中属于未来发布计划。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "值得抽象的是高层‘下一步该做什么’与底层‘怎么安全地走’之间的接口，可与 Nav2 现有规划闭环对照，而不必替换控制器。",
+          "limitations": "1.37 km 并非完全无人干预；尚未确认公开完整模型与实现。高层 VLM 的具体运行成本可能不符合本站零增量费用约束，不使用任何额外付费 API。",
+          "experiment": "用录制视频/地图人工标注 6–10 个原子动作，测试语义指令到局部路径/Nav2 Goal 的接口；模拟 0、3、7 m 定位偏差，统计成功率、越界次数和重规划频率。",
+          "watch": "跟踪官方模型代码与 benchmark 开放；复杂路口、交通规则和高层推理成本。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.05129",
+              "scope": "论文与作者报告，非独立代码审计",
+              "checked_on": "2026-11-07"
+            }
+          ],
+          "tags": [
+            "VLN",
+            "GNSS",
+            "户外导航"
+          ],
+          "order": 2,
+          "first_added": "2026-11-07",
+          "checked_on": "2026-11-07",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-07"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-07",
+              "kind": "new_paper",
+              "note": "2026-11-07 首次收录并核对论文提交日期；非本站作者实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-04972",
+          "topic": "navigation",
+          "name": "Caging Legged-VLN",
+          "title": "让 VLM 提目标，让 SDF 和约束决定能否执行",
+          "event_date": "2026-11-03",
+          "event_date_precision": "day",
+          "date_label": "arXiv v1 提交",
+          "summary": "高层 VLM/VLA 输出只作导航提案，在线三维感知与 SDF、Bézier-MPPI、离散指数屏障函数构成物理执行保护层。",
+          "action": "优先验证安全边界",
+          "facts": [
+            {
+              "text": "2026-11-03 首次提交 arXiv；论文正文标注 Accepted to IEEE-RAS Humanoids 2026。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者提出将 VLA 语义目标与局部 SDF 约束规划解耦，展示了 Unitree G1 与 Ghost Robotics Vision 60 两个平台的实机实验。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "论文明确指出形式化避障结论依赖当前 SDF、建模和跟踪假设，无法覆盖未观察到的几何、状态估计误差、时延、跟踪误差以及错误语义目标。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "最值得迁移的是‘模型输出不是安全指令’的系统边界。可对局部保护层单独验证，再把任意高层 VLM/语义模块接进来；不能把论文中有条件的安全证明说成实机绝对安全。",
+          "limitations": "未核实可直接复现的官方仓库，未独立审查数学证明或做实机验证；动态障碍和感知缺失是重要边界。",
+          "experiment": "在仿真固定目标，分别注入错误目标、突发障碍、SDF 缺测和控制延迟；比较无保护、软代价和硬约束备份策略的碰撞率、最小距离和错误拒绝率。不要未经验证接入实机。",
+          "watch": "跟踪代码开放、动态障碍覆盖、状态估计误差与控制延时假设。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.04972",
+              "scope": "论文与作者报告，非独立代码审计",
+              "checked_on": "2026-11-07"
+            }
+          ],
+          "tags": [
+            "VLM/VLA",
+            "SDF",
+            "MPPI",
+            "Safety"
+          ],
+          "order": 3,
+          "first_added": "2026-11-07",
+          "checked_on": "2026-11-07",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-07"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-07",
+              "kind": "new_paper",
+              "note": "2026-11-07 首次收录并核对论文提交日期；非本站作者实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-03498",
+          "topic": "simulation",
+          "name": "SNAP",
+          "title": "用同一张 BEV 表示动态人群与地形语义",
+          "event_date": "2026-11-02",
+          "event_date_precision": "day",
+          "date_label": "arXiv v1 提交",
+          "summary": "以机器人中心语义 BEV 联合表达可通行地形与动态障碍，不依赖显式的行人速度/位置跟踪，训练端到端导航策略。",
+          "action": "设计场景回归",
+          "facts": [
+            {
+              "text": "2026-11-02 首次提交 arXiv，使用语义 BEV、机器人状态和目标向量训练 PPO 导航策略。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者报告方法可从随机化人群仿真直接迁移至 ANYmal-D，实机策略约 10 Hz 运行。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者在结论中明确指出仅有 5×5 m 局部视野，当前语义图预定义，代码和模型计划以后公开。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "关键价值是让动态障碍避让与道路规则共用空间表示。对现有 Nav2 系统可先构建语义 costmap 与行人干扰的对照测试，不急于复制 RL 模型。",
+          "limitations": "作者的 sim-to-real 结果不等于本站实测；实机表现依赖 BEV 可见范围、语义地图质量与人群运动分布；本轮未确认完整代码。",
+          "experiment": "先在仿真人行道与路口引入随机横穿行人，用普通障碍代价层与语义+动态障碍层对比越界、碰撞、成功率、路径效率和遮挡时退化。",
+          "watch": "代码/权重发布、预定义地图到机载 BEV 的迁移，以及视野扩大后的反应时延。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.03498",
+              "scope": "论文与作者报告，非独立代码审计",
+              "checked_on": "2026-11-07"
+            }
+          ],
+          "tags": [
+            "Sim-to-Real",
+            "语义 BEV",
+            "人群导航"
+          ],
+          "order": 4,
+          "first_added": "2026-11-07",
+          "checked_on": "2026-11-07",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-07"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-07",
+              "kind": "new_paper",
+              "note": "2026-11-07 首次收录并核对论文提交日期；非本站作者实测。"
+            }
+          ]
+        }
+      ]
     }
   ],
   "topic_state": {
     "slam": {
       "baseline_established_on": "2026-10-11",
-      "last_successful_scan": null,
+      "last_successful_scan": "2026-11-07",
       "last_successful_publish": null,
       "coverage": "selected_sources_only"
     },
     "reconstruction": {
       "baseline_established_on": "2026-10-11",
-      "last_successful_scan": null,
+      "last_successful_scan": "2026-11-07",
       "last_successful_publish": null,
       "coverage": "selected_sources_only"
     },
     "navigation": {
       "baseline_established_on": "2026-10-11",
-      "last_successful_scan": null,
+      "last_successful_scan": "2026-11-07",
       "last_successful_publish": null,
       "coverage": "selected_sources_only"
     },
     "simulation": {
       "baseline_established_on": "2026-10-11",
-      "last_successful_scan": null,
+      "last_successful_scan": "2026-11-07",
       "last_successful_publish": null,
       "coverage": "selected_sources_only"
     }
   },
   "items": [
+    {
+      "id": "arxiv-2611-06308",
+      "topic": "slam",
+      "name": "Scale Anchoring for VGGT-Based SLAM",
+      "title": "尺度锚定与回环约束：学习式 SLAM 仍需要全局一致性",
+      "event_date": "2026-11-04",
+      "event_date_precision": "day",
+      "date_label": "arXiv v1 提交",
+      "summary": "对 VGGT-SLAM 2.0 引入固定根尺度锚定和短序列验证的直接回环连接，针对跨子地图尺度漂移。",
+      "action": "研究消融设计",
+      "facts": [
+        {
+          "text": "2026-11-04 首次提交 arXiv，标注 Submitted to ICRA 2027，而非已获录用。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者将固定根尺度锚定与跨子地图的序列一致性回环检查分别建模，使用 Sim(3) 因子抑制全局漂移。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告九条 TUM 序列平均 Sim(3) ATE 从 0.1018 m 降到 0.0451 m，属于特定数据集与基线下的作者结果。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "将尺度锚定与回环验证分开做消融，能比直接更换 SLAM 主干更清楚地定位收益。对本来已有 LiDAR/IMU 度量尺度的系统，效果不能简单外推。",
+      "limitations": "本轮未确认配套官方代码或复现配置，尚未独立测试；模型显存和长序列性能未核实。",
+      "experiment": "先固定公开序列和 VGGT-SLAM 2.0 基线；分别关闭尺度锚定、回环验证，比较 Sim(3) ATE、尺度漂移、错误回环和峰值显存。没有代码先设计评测协议。",
+      "watch": "继续检查官方实现开放情况、长序列动态场景的错误回环与尺度稳定性。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.06308",
+          "scope": "论文与作者报告，非独立代码审计",
+          "checked_on": "2026-11-07"
+        }
+      ],
+      "tags": [
+        "VGGT",
+        "Sim(3)",
+        "尺度漂移"
+      ],
+      "order": 1,
+      "first_added": "2026-11-07",
+      "checked_on": "2026-11-07",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-07"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-07",
+          "kind": "new_paper",
+          "note": "2026-11-07 首次收录并核对论文提交日期；非本站作者实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-05129",
+      "topic": "navigation",
+      "name": "WayTrace",
+      "title": "公里级户外导航：将地图指令转为图像轨迹",
+      "event_date": "2026-11-03",
+      "event_date_precision": "day",
+      "date_label": "arXiv v1 提交",
+      "summary": "网页地图指令→高层 VLM 原子语义命令→图像路径预测→底层策略跟踪，目标是减少对精确 GNSS 路点的依赖。",
+      "action": "优先研究接口",
+      "facts": [
+        {
+          "text": "2026-11-03 首次提交 arXiv，论文标注 Under Review；并非已获录用。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "高层根据网络地图、卫星图和相机图像选择原子语义指令，机载轨迹预测器生成图像路径，强化学习策略负责实际跟踪。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告模拟中 7 m RMS 漂移 GNSS 下成功率 63%；三条最长 426 m 的城市任务全自主完成，而另一条 1.37 km 实机任务有两次短暂人工干预。代码、模型、基准及数据在论文中属于未来发布计划。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "值得抽象的是高层‘下一步该做什么’与底层‘怎么安全地走’之间的接口，可与 Nav2 现有规划闭环对照，而不必替换控制器。",
+      "limitations": "1.37 km 并非完全无人干预；尚未确认公开完整模型与实现。高层 VLM 的具体运行成本可能不符合本站零增量费用约束，不使用任何额外付费 API。",
+      "experiment": "用录制视频/地图人工标注 6–10 个原子动作，测试语义指令到局部路径/Nav2 Goal 的接口；模拟 0、3、7 m 定位偏差，统计成功率、越界次数和重规划频率。",
+      "watch": "跟踪官方模型代码与 benchmark 开放；复杂路口、交通规则和高层推理成本。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.05129",
+          "scope": "论文与作者报告，非独立代码审计",
+          "checked_on": "2026-11-07"
+        }
+      ],
+      "tags": [
+        "VLN",
+        "GNSS",
+        "户外导航"
+      ],
+      "order": 2,
+      "first_added": "2026-11-07",
+      "checked_on": "2026-11-07",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-07"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-07",
+          "kind": "new_paper",
+          "note": "2026-11-07 首次收录并核对论文提交日期；非本站作者实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-04972",
+      "topic": "navigation",
+      "name": "Caging Legged-VLN",
+      "title": "让 VLM 提目标，让 SDF 和约束决定能否执行",
+      "event_date": "2026-11-03",
+      "event_date_precision": "day",
+      "date_label": "arXiv v1 提交",
+      "summary": "高层 VLM/VLA 输出只作导航提案，在线三维感知与 SDF、Bézier-MPPI、离散指数屏障函数构成物理执行保护层。",
+      "action": "优先验证安全边界",
+      "facts": [
+        {
+          "text": "2026-11-03 首次提交 arXiv；论文正文标注 Accepted to IEEE-RAS Humanoids 2026。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者提出将 VLA 语义目标与局部 SDF 约束规划解耦，展示了 Unitree G1 与 Ghost Robotics Vision 60 两个平台的实机实验。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "论文明确指出形式化避障结论依赖当前 SDF、建模和跟踪假设，无法覆盖未观察到的几何、状态估计误差、时延、跟踪误差以及错误语义目标。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "最值得迁移的是‘模型输出不是安全指令’的系统边界。可对局部保护层单独验证，再把任意高层 VLM/语义模块接进来；不能把论文中有条件的安全证明说成实机绝对安全。",
+      "limitations": "未核实可直接复现的官方仓库，未独立审查数学证明或做实机验证；动态障碍和感知缺失是重要边界。",
+      "experiment": "在仿真固定目标，分别注入错误目标、突发障碍、SDF 缺测和控制延迟；比较无保护、软代价和硬约束备份策略的碰撞率、最小距离和错误拒绝率。不要未经验证接入实机。",
+      "watch": "跟踪代码开放、动态障碍覆盖、状态估计误差与控制延时假设。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.04972",
+          "scope": "论文与作者报告，非独立代码审计",
+          "checked_on": "2026-11-07"
+        }
+      ],
+      "tags": [
+        "VLM/VLA",
+        "SDF",
+        "MPPI",
+        "Safety"
+      ],
+      "order": 3,
+      "first_added": "2026-11-07",
+      "checked_on": "2026-11-07",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-07"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-07",
+          "kind": "new_paper",
+          "note": "2026-11-07 首次收录并核对论文提交日期；非本站作者实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-03498",
+      "topic": "simulation",
+      "name": "SNAP",
+      "title": "用同一张 BEV 表示动态人群与地形语义",
+      "event_date": "2026-11-02",
+      "event_date_precision": "day",
+      "date_label": "arXiv v1 提交",
+      "summary": "以机器人中心语义 BEV 联合表达可通行地形与动态障碍，不依赖显式的行人速度/位置跟踪，训练端到端导航策略。",
+      "action": "设计场景回归",
+      "facts": [
+        {
+          "text": "2026-11-02 首次提交 arXiv，使用语义 BEV、机器人状态和目标向量训练 PPO 导航策略。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告方法可从随机化人群仿真直接迁移至 ANYmal-D，实机策略约 10 Hz 运行。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者在结论中明确指出仅有 5×5 m 局部视野，当前语义图预定义，代码和模型计划以后公开。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "关键价值是让动态障碍避让与道路规则共用空间表示。对现有 Nav2 系统可先构建语义 costmap 与行人干扰的对照测试，不急于复制 RL 模型。",
+      "limitations": "作者的 sim-to-real 结果不等于本站实测；实机表现依赖 BEV 可见范围、语义地图质量与人群运动分布；本轮未确认完整代码。",
+      "experiment": "先在仿真人行道与路口引入随机横穿行人，用普通障碍代价层与语义+动态障碍层对比越界、碰撞、成功率、路径效率和遮挡时退化。",
+      "watch": "代码/权重发布、预定义地图到机载 BEV 的迁移，以及视野扩大后的反应时延。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.03498",
+          "scope": "论文与作者报告，非独立代码审计",
+          "checked_on": "2026-11-07"
+        }
+      ],
+      "tags": [
+        "Sim-to-Real",
+        "语义 BEV",
+        "人群导航"
+      ],
+      "order": 4,
+      "first_added": "2026-11-07",
+      "checked_on": "2026-11-07",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-07"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-07",
+          "kind": "new_paper",
+          "note": "2026-11-07 首次收录并核对论文提交日期；非本站作者实测。"
+        }
+      ]
+    },
     {
       "id": "gofish",
       "topic": "reconstruction",
