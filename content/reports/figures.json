@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "reports": {
+    "mobile-manipulation": [
+      {
+        "id": "homerobot-task",
+        "section": "scope",
+        "title": "移动操作不是一次抓取，而是多阶段任务",
+        "alt": "HomeRobot 在真实机器人与仿真中依次完成寻找目标、抓取、寻找放置区域和放置的任务示例",
+        "source_url": "https://ovmm.github.io/static/images/the_task.png",
+        "source_page": "https://ovmm.github.io/",
+        "credit": "Sriram Yenamandra 等 · HomeRobot / OVMM",
+        "caption": "按寻找物体、抓取、寻找目标容器、放置的顺序读图。关键不只是单个抓取技能，而是阶段间的空间状态和成功判据如何交接。图中上下两行是作者的实机与仿真示例；不能据此把仿真任务完成率视作实机部署可靠性。",
+        "rights_note": "作者项目网站声明 CC BY-SA 4.0。",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "checked_on": "2026-11-11"
+      },
+      {
+        "id": "conceptgraphs-pipeline",
+        "section": "geometry",
+        "title": "从多视角 RGB-D 到物体级三维场景图",
+        "alt": "ConceptGraphs 将二维开放词汇分割、物体特征、多视角三维关联与关系推理连接到导航和操作任务的流程图",
+        "source_url": "https://concept-graphs.github.io/static/images/pipeline.png",
+        "source_page": "https://concept-graphs.github.io/",
+        "credit": "Qiao Gu 等 · ConceptGraphs",
+        "caption": "左侧从图像分割和特征提取进入三维关联，中部融合重复观测，右侧形成对象与关系并服务任务规划。对移动操作最有价值的是物体身份、位置和关系可被查询；语义图仍不能替代精确的近场碰撞几何，物体移动后还需更新旧状态。",
+        "rights_note": "原作者技术图，作为方法评析引用；版权归原作者，未将网页模板许可推定为图片开放许可。",
+        "checked_on": "2026-11-11"
+      },
+      {
+        "id": "umi-hardware",
+        "section": "control",
+        "title": "分层控制仍需要真实的观测、定位与执行接口",
+        "alt": "UMI on Legs 的四足机械臂、相机、定位设备和夹爪硬件配置",
+        "source_url": "https://umi-on-legs.github.io/static/images/espresso-and-latte.jpeg",
+        "source_page": "https://umi-on-legs.github.io/",
+        "credit": "Huy Ha、Yihuai Gao 等 · UMI on Legs",
+        "caption": "这幅硬件标注图解释分层策略最终依赖哪些物理接口：相机提供操作观测，身体位姿用于稳定任务参考系，机械臂与足式控制共同跟踪目标。作者方法用真实示范学习上层技能、仿真训练全身控制；图中设备不是统一配置要求，也不是本站搭建的平台。",
+        "rights_note": "作者项目网站声明 CC BY-SA 4.0。",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "checked_on": "2026-11-11"
+      },
+      {
+        "id": "okrobot-failure",
+        "section": "prototype",
+        "title": "按阶段归因失败，比只报一个成功率更有用",
+        "alt": "OK-Robot 用桑基图区分导航、操作和放置过程中的成功与失败分流",
+        "source_url": "https://ok-robot.github.io/mfiles/images/sankey_failure_modes.png",
+        "source_page": "https://ok-robot.github.io/",
+        "credit": "Peiqi Liu 等 · OK-Robot",
+        "caption": "沿图中的分流定位导航、操作和放置各阶段的问题，可帮助决定优先改地图、抓取还是恢复。图中 375 次 trials 是该图自己的统计口径；不得将它与项目页另一组 171 次任务或 58.5% 结果直接拼接。本报告引用的是失败归因方法，不把作者图表当作本站实验。",
+        "rights_note": "作者项目网站声明 CC BY-NC-SA 4.0；保留非商业与相同方式共享条件。",
+        "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "checked_on": "2026-11-11"
+      }
+    ],
+    "vision-language-navigation": [
+      {
+        "id": "vlmaps-pipeline",
+        "section": "maps",
+        "title": "把语言特征落到可查询的三维地图",
+        "alt": "VLMaps 将图像语言特征投影到三维地图，再用文字特征检索地标的两阶段架构",
+        "source_url": "https://vlmaps.github.io/static/images/pipeline.png",
+        "source_page": "https://vlmaps.github.io/",
+        "credit": "Chenguang Huang、Oier Mees、Andy Zeng、Wolfram Burgard · VLMaps",
+        "caption": "左侧利用几何将视觉语言特征写入空间，右侧用文本特征查询地标。这里的语义匹配解决“哪里像目标”，而不是直接给出可安全到达的底盘位姿；深度、位姿、地图可通行性与任务参照系仍需单独检查。",
+        "rights_note": "原作者技术图，作为方法评析引用；版权归原作者，未将网页模板许可推定为图片开放许可。",
+        "checked_on": "2026-11-11"
+      },
+      {
+        "id": "navid-method",
+        "section": "video",
+        "title": "当前观察与历史帧采用不同的信息预算",
+        "alt": "NaVid 的视觉编码、历史与当前观察 token、语言指令及下一步动作预测架构",
+        "source_url": "https://pku-epic.github.io/NaVid/static/images/method.png",
+        "source_page": "https://pku-epic.github.io/NaVid/",
+        "credit": "Jiazhao Zhang、Kunyu Wang 等 · NaVid",
+        "caption": "观察编码器把当前和历史 RGB 帧转换为不同信息密度的 token，再与指令共同进入动作预测。应关注什么历史被保留，而不只是上下文有多长。模型不读取地图或深度的设定，不能自动外推为执行机器人不需要状态估计与碰撞保护。",
+        "rights_note": "作者项目网站声明 CC BY-SA 4.0。",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "checked_on": "2026-11-11"
+      },
+      {
+        "id": "streamvln-context",
+        "section": "video",
+        "title": "StreamVLN 的快慢是上下文更新，不是两套控制器",
+        "alt": "StreamVLN 用滑动窗口 KV cache 和慢更新压缩记忆管理流式视觉语言动作上下文的静态方法图",
+        "source_url": "https://streamvln.github.io/static/images/overview.png",
+        "source_page": "https://streamvln.github.io/",
+        "credit": "Meng Wei、Chenyang Wan 等 · StreamVLN",
+        "caption": "快速流维护最近的对话与动作上下文，较慢更新的记忆压缩早期观察。它解决的是连续视频中的历史管理与推理成本问题，不等同于高层语义规划器与底层机器人控制器的分工。采用作者提供的静态版本，避免阅读时循环动画干扰。",
+        "rights_note": "作者项目网站声明 CC BY-SA 4.0。",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "checked_on": "2026-11-11"
+      },
+      {
+        "id": "internvla-dual",
+        "section": "dual-system",
+        "title": "异步双系统：语义计划与短程轨迹分工",
+        "alt": "InternVLA-N1 的 System 2 语义规划与 System 1 短程执行接口示意",
+        "source_url": "https://internrobotics.github.io/internvla-n1.github.io/static/images/s1s2_overview.png",
+        "source_page": "https://internrobotics.github.io/internvla-n1.github.io/",
+        "credit": "Intern Robotics · Shanghai AI Laboratory · InternVLA-N1",
+        "caption": "高层从图像和语言形成像素目标或潜在计划，低层根据当前观测产生短程轨迹。异步并不意味着可以忽略时间：工程接入仍应记录观测时间、计划有效期、坐标系和撤销条件。此图解释原作者架构，不是已完成的 Nav2 适配包。",
+        "rights_note": "作者项目网站声明 CC BY-SA 4.0。",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "checked_on": "2026-11-11"
+      }
+    ]
+  }
+}

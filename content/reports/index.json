@@ -2,41 +2,49 @@
   "schema_version": 1,
   "reports": [
     {
-      "id": "report-mobile-manipulation",
-      "slug": "mobile-manipulation",
-      "title": "移动操作技术深度调研",
-      "subtitle": "从空间感知到物理交互：技术路线、证据边界与原型建议",
-      "summary": "导航到达之后，机器人怎样选择停靠位置、协调底盘与机械臂、处理接触和失败？从分层架构、VLA 与三维表示出发，给出可验证的移动操作路线。",
-      "category": "机器人系统",
-      "topics": [
-        "移动操作",
-        "三维感知",
-        "全身控制",
-        "VLA",
-        "仿真与评测"
-      ],
-      "content_file": "mobile-manipulation.md",
+      "id": "report-vision-language-navigation",
+      "slug": "vision-language-navigation",
+      "title": "视觉语言导航（VLN）技术深度调研",
+      "subtitle": "从语言与空间对齐，到可验证的机器人导航闭环",
+      "summary": "区分路线指令、目标导航与物理执行，比较拓扑图、语义地图、视频 VLA 和异步双系统；从评测口径、空间记忆到 ROS 2 / Nav2 接入，给出可验证的工程路线。",
+      "category": "具身导航",
+      "topics": ["VLN", "语义地图", "视频 VLA", "空间记忆", "ROS 2 / Nav2", "Sim-to-Real"],
+      "content_file": "vision-language-navigation.md",
       "version": "1.0",
       "research_as_of": "2026-11-11",
       "updated_at": "2026-11-11",
       "publish_approved": true,
       "owner_reviewed": false,
       "independently_tested": false,
+      "figure_count": 4,
+      "evidence": "原始论文与官方资料调研 · 未独立训练或实机验证",
+      "provenance_note": "公开技术研究长文。方法图来自署名的作者项目，中文图解为编辑分析；设计接口、实验路线与资源建议不代表已完成部署。",
+      "changelog": [{"date": "2026-11-11", "version": "1.0", "note": "首版：14个章节、24条参考资料、4幅研究配图；区分任务、感知与控制条件，补充评测、时序、恢复和部署建议。"}],
+      "related_items": ["internnav", "fast-livo2", "isaac-ros-nvblox", "isaac-sim-nav2", "arxiv-2611-05129"]
+    },
+    {
+      "id": "report-mobile-manipulation",
+      "slug": "mobile-manipulation",
+      "title": "移动操作技术深度调研",
+      "subtitle": "从空间感知到物理交互：技术路线、证据边界与原型建议",
+      "summary": "导航到达之后，机器人怎样选择停靠位置、协调底盘与机械臂、处理接触和失败？从分层架构、VLA 与三维表示出发，给出可验证的移动操作路线。",
+      "category": "机器人系统",
+      "topics": ["移动操作", "三维感知", "全身控制", "VLA", "仿真与评测"],
+      "content_file": "mobile-manipulation.md",
+      "version": "1.1",
+      "research_as_of": "2026-11-11",
+      "updated_at": "2026-11-11",
+      "publish_approved": true,
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "figure_count": 4,
       "evidence": "公开资料调研 · 关键来源复核 · 未独立实测",
-      "provenance_note": "由既有调研稿重编为公开长文；去除私人对话与设备归属信息，保留原始来源和技术边界。",
+      "provenance_note": "由既有调研稿重编为公开长文；去除私人对话与设备归属信息，保留原始来源和技术边界。配图为署名的作者研究材料，中文图解为编辑说明，不是本站实验。",
       "changelog": [
-        {
-          "date": "2026-11-11",
-          "version": "1.0",
-          "note": "首个公开网页版：重排为13个章节，复核关键论据，区分作者结果与工程建议；保留32条参考资料并标注补充入口的核查限制。"
-        }
+        {"date": "2026-11-11", "version": "1.1", "note": "加入4幅科研配图：任务流程、三维场景图、全身控制硬件配置与失败归因；附中文图解、署名、来源和证据边界，支持点击大图与同站静态资源。"},
+        {"date": "2026-11-11", "version": "1.0", "note": "首个公开网页版：重排为13个章节，复核关键论据，区分作者结果与工程建议；保留32条参考资料并标注补充入口的核查限制。"}
       ],
-      "related_items": [
-        "fast-livo2",
-        "isaac-ros-nvblox",
-        "isaac-sim-nav2",
-        "arxiv-2611-07417"
-      ]
+      "related_items": ["fast-livo2", "isaac-ros-nvblox", "isaac-sim-nav2", "arxiv-2611-07417"]
     }
   ]
 }

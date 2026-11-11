@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { buildReports } from './reports.mjs';
 const read=p=>fs.readFileSync(p,'utf8');
 const d=JSON.parse(read('content/articles.json'));
@@ -11,4 +12,8 @@ const json=JSON.stringify(d).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028'
 const html=read('template.html').replace('/*__CSS__*/',()=>read('styles.css')).replace('/*__DATA__*/',()=>json).replace('/*__JS__*/',()=>read('app.js'));
 fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/index.html',html);fs.writeFileSync('dist/.nojekyll','');console.log(`Built ${d.items.length} publication-approved entries`);
 buildReports({siteData:d});
+for (const script of ['tools/test-figures.py','tools/illustrate.py']) {
+ const result=spawnSync('python3',[script],{stdio:'inherit'});
+ if(result.error || result.status!==0) throw new Error(`Figure stage failed: ${script}`);
+}
 fs.writeFileSync('dist/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA||null,built_at:new Date().toISOString()},null,2)+'\n');
