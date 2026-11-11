@@ -7,9 +7,9 @@
     "status": "published",
     "public_url": "https://wqs111000.github.io/3d-robotics-insights/",
     "published_at": "2026-11-01",
-    "last_content_update": "2026-11-07",
+    "last_content_update": "2026-11-11",
     "disclaimer": "内容先发布并持续检查；公开资料核对不等于本人逐条审阅或独立实测。",
-    "publication_note": "沿用现有 GitHub Pages 站点，新增内容允许公开；发布成功以 Actions 与公开网址核验为准。",
+    "publication_note": "第004期获公开授权；网页部署待工作流和访客端核验，不能将仓库内容写入等同于网页发布。",
     "published_at_note": "沿用现有两期记录的发布日期，非经核实的站点首次部署时间。",
     "last_verified_deployment": {
       "commit": "6867f903c93ca518e67da14394f728e72d09e122",
@@ -951,6 +951,226 @@
           ]
         }
       ]
+    },
+    {
+      "id": "issue-2026-11-11",
+      "number": "004",
+      "title": "004 · 导航智能的工程边界",
+      "date": "2026-11-11",
+      "kind": "update",
+      "status": "pending_deployment_verification",
+      "published_at": null,
+      "description": "按需多模态推理、开放世界交互式导航与ROS2真实集成。",
+      "focus_title": "模型负责理解场景，系统负责保证决策可执行。",
+      "focus_summary": "优选MOSU2、MessyNav与ROS2 Rover Stack，比较时延、安全与工程闭环，不以作者成功率直接横向排名。",
+      "item_ids": [
+        "arxiv-2611-11148",
+        "arxiv-2611-07417",
+        "arxiv-2611-08100"
+      ],
+      "snapshots": [
+        {
+          "id": "arxiv-2611-11148",
+          "topic": "navigation",
+          "name": "MOSU2",
+          "title": "长距离户外导航：用按需多模态推理平衡安全与时延",
+          "event_date": "2026-11-08",
+          "summary": "两阶段轨迹选择，遇到尚未解决的复杂交互才检索几何和运动线索。",
+          "facts": [
+            {
+              "text": "作者提出结合GPS全局路线、机器人特定的可通行性过滤及两阶段上下文推理，处理行人、车辆、施工和交通信号。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者报告相对单图像前代平均导航成功率61.8%→94.2%，场景条件检测准确率72.2%→91.4%，平均决策延迟约为前代2.2倍。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "高价值的是按需升级推理层，而非让VLM持续接管局部控制；要与安全规划、事件触发与降级机制一起评估。",
+          "limitations": "作者特定户外实验，不代表全场景安全；本轮项目网页未能独立打开，未核实完整开源代码、权重和部署费用；未本人实测。",
+          "experiment": "构造常规通行、行人横穿、临时封路三类离线场景，对比固定周期与事件触发推理；统计触发率、判断延迟与误判，不调用付费模型API。",
+          "watch": "代码开放、VLM依赖、机器人形态迁移、误触发与决策延迟。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.11148",
+              "scope": "HTML论文全文，作者实验报告",
+              "checked_on": "2026-11-11"
+            },
+            {
+              "id": "project",
+              "label": "作者列出的项目网址（未独立访问成功）",
+              "url": "https://jinggm.github.io/mosu2/",
+              "scope": "论文给出的项目地址；页面未核实",
+              "checked_on": "2026-11-11"
+            }
+          ],
+          "tags": [
+            "户外导航",
+            "VLM",
+            "按需推理"
+          ],
+          "date_label": "arXiv v1 提交",
+          "event_date_precision": "day",
+          "action": "研究验证条件",
+          "order": 1,
+          "first_added": "2026-11-11",
+          "checked_on": "2026-11-11",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-11"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-11",
+              "kind": "new_paper",
+              "note": "本期首次收录，依据作者论文资料；无本人实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-07417",
+          "topic": "navigation",
+          "name": "MessyNav",
+          "title": "从绕开障碍到改变环境：开放世界交互式导航",
+          "event_date": "2026-11-05",
+          "summary": "用零样本可操作性推理判断何时绕行、推动或拾取遮挡物，再组织导航与操作动作。",
+          "facts": [
+            {
+              "text": "作者定义开放世界交互式导航，利用场景上下文与视觉语言模型推断物体可操作性，再组合高层任务计划与运动原语。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者报告室内外移动操作机器人测试中成功率相对最强基线提高27个百分点，属于作者所述实验范围。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "交互式导航把语义判断变成接触动作，需要几何、物理约束与高风险物体禁操作策略，不能把VLM可操作性判断当成安全保证。",
+          "limitations": "本次未核实完整官方代码与权重；实验结果非独立复现；移动机械臂硬件能力不能直接推断适用于纯移动底盘。",
+          "experiment": "在仿真中设置空箱、易碎物与移动推车，比较纯绕行、规则交互与语义交互选择的任务成功、危险动作提议和代价；不执行真实接触动作。",
+          "watch": "代码、离线/真机分项结果、物体力学限制、禁操作条件与失败恢复。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.07417",
+              "scope": "HTML论文全文，作者报告",
+              "checked_on": "2026-11-11"
+            }
+          ],
+          "tags": [
+            "Mobile Manipulation",
+            "交互导航",
+            "可操作性"
+          ],
+          "date_label": "arXiv v1 提交",
+          "event_date_precision": "day",
+          "action": "研究验证条件",
+          "order": 2,
+          "first_added": "2026-11-11",
+          "checked_on": "2026-11-11",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-11"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-11",
+              "kind": "new_paper",
+              "note": "本期首次收录，依据作者论文资料；无本人实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-08100",
+          "topic": "navigation",
+          "name": "Open-Source ROS2 Rover Stack",
+          "title": "从识别到控制：更值得复用的是 ROS2 工程接口",
+          "event_date": "2026-11-05",
+          "summary": "公开集成视觉标记识别、RGB-D SLAM、轮惯性融合、Nav2、行为树与STM32执行的轮式机器人方案。",
+          "facts": [
+            {
+              "text": "论文描述YOLOv8n、RTAB-Map、robot_localization、Nav2、行为树与STM32的端到端集成，并链接作者代码组织。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者报告478张测试图像mAP@0.5=0.720、Jetson Orin NX感知延迟25 ms及三次实机任务；明确承认需要重复测量以验证可靠性。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "并非凭算法新颖性入选，而是因为其ROS2目标转换、TF、行为树与控制插件的端到端接口及失败记录可复用。",
+          "limitations": "实机仅报告三次任务，尚不足以估计可靠性；论文指出历史实验的确切部署版本未全部归档；未在用户设备验证。",
+          "experiment": "只复现视觉目标→map坐标变换→Nav2 Goal发布的最小闭环，检查时间戳、TF、异常目标过滤，使用录包或仿真而非直接连驱动。",
+          "watch": "作者仓库具体提交与许可证、传感器时间一致性、TF误差和异常恢复。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.08100",
+              "scope": "论文HTML全文、系统结构与实机报告",
+              "checked_on": "2026-11-11"
+            },
+            {
+              "id": "code",
+              "label": "作者论文关联代码组织",
+              "url": "https://github.com/KodII-rover",
+              "scope": "论文引用代码组织，未逐仓库复现",
+              "checked_on": "2026-11-11"
+            }
+          ],
+          "tags": [
+            "ROS2",
+            "RTAB-Map",
+            "Nav2",
+            "Jetson"
+          ],
+          "date_label": "arXiv v1 提交",
+          "event_date_precision": "day",
+          "action": "优先分析工程接口",
+          "order": 3,
+          "first_added": "2026-11-11",
+          "checked_on": "2026-11-11",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-11"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-11",
+              "kind": "new_paper",
+              "note": "本期首次收录，依据作者论文资料；无本人实测。"
+            }
+          ]
+        }
+      ]
     }
   ],
   "topic_state": {
@@ -980,6 +1200,207 @@
     }
   },
   "items": [
+    {
+      "id": "arxiv-2611-11148",
+      "topic": "navigation",
+      "name": "MOSU2",
+      "title": "长距离户外导航：用按需多模态推理平衡安全与时延",
+      "event_date": "2026-11-08",
+      "summary": "两阶段轨迹选择，遇到尚未解决的复杂交互才检索几何和运动线索。",
+      "facts": [
+        {
+          "text": "作者提出结合GPS全局路线、机器人特定的可通行性过滤及两阶段上下文推理，处理行人、车辆、施工和交通信号。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告相对单图像前代平均导航成功率61.8%→94.2%，场景条件检测准确率72.2%→91.4%，平均决策延迟约为前代2.2倍。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "高价值的是按需升级推理层，而非让VLM持续接管局部控制；要与安全规划、事件触发与降级机制一起评估。",
+      "limitations": "作者特定户外实验，不代表全场景安全；本轮项目网页未能独立打开，未核实完整开源代码、权重和部署费用；未本人实测。",
+      "experiment": "构造常规通行、行人横穿、临时封路三类离线场景，对比固定周期与事件触发推理；统计触发率、判断延迟与误判，不调用付费模型API。",
+      "watch": "代码开放、VLM依赖、机器人形态迁移、误触发与决策延迟。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.11148",
+          "scope": "HTML论文全文，作者实验报告",
+          "checked_on": "2026-11-11"
+        },
+        {
+          "id": "project",
+          "label": "作者列出的项目网址（未独立访问成功）",
+          "url": "https://jinggm.github.io/mosu2/",
+          "scope": "论文给出的项目地址；页面未核实",
+          "checked_on": "2026-11-11"
+        }
+      ],
+      "tags": [
+        "户外导航",
+        "VLM",
+        "按需推理"
+      ],
+      "date_label": "arXiv v1 提交",
+      "event_date_precision": "day",
+      "action": "研究验证条件",
+      "order": 1,
+      "first_added": "2026-11-11",
+      "checked_on": "2026-11-11",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-11"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-11",
+          "kind": "new_paper",
+          "note": "本期首次收录，依据作者论文资料；无本人实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-07417",
+      "topic": "navigation",
+      "name": "MessyNav",
+      "title": "从绕开障碍到改变环境：开放世界交互式导航",
+      "event_date": "2026-11-05",
+      "summary": "用零样本可操作性推理判断何时绕行、推动或拾取遮挡物，再组织导航与操作动作。",
+      "facts": [
+        {
+          "text": "作者定义开放世界交互式导航，利用场景上下文与视觉语言模型推断物体可操作性，再组合高层任务计划与运动原语。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告室内外移动操作机器人测试中成功率相对最强基线提高27个百分点，属于作者所述实验范围。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "交互式导航把语义判断变成接触动作，需要几何、物理约束与高风险物体禁操作策略，不能把VLM可操作性判断当成安全保证。",
+      "limitations": "本次未核实完整官方代码与权重；实验结果非独立复现；移动机械臂硬件能力不能直接推断适用于纯移动底盘。",
+      "experiment": "在仿真中设置空箱、易碎物与移动推车，比较纯绕行、规则交互与语义交互选择的任务成功、危险动作提议和代价；不执行真实接触动作。",
+      "watch": "代码、离线/真机分项结果、物体力学限制、禁操作条件与失败恢复。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.07417",
+          "scope": "HTML论文全文，作者报告",
+          "checked_on": "2026-11-11"
+        }
+      ],
+      "tags": [
+        "Mobile Manipulation",
+        "交互导航",
+        "可操作性"
+      ],
+      "date_label": "arXiv v1 提交",
+      "event_date_precision": "day",
+      "action": "研究验证条件",
+      "order": 2,
+      "first_added": "2026-11-11",
+      "checked_on": "2026-11-11",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-11"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-11",
+          "kind": "new_paper",
+          "note": "本期首次收录，依据作者论文资料；无本人实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-08100",
+      "topic": "navigation",
+      "name": "Open-Source ROS2 Rover Stack",
+      "title": "从识别到控制：更值得复用的是 ROS2 工程接口",
+      "event_date": "2026-11-05",
+      "summary": "公开集成视觉标记识别、RGB-D SLAM、轮惯性融合、Nav2、行为树与STM32执行的轮式机器人方案。",
+      "facts": [
+        {
+          "text": "论文描述YOLOv8n、RTAB-Map、robot_localization、Nav2、行为树与STM32的端到端集成，并链接作者代码组织。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告478张测试图像mAP@0.5=0.720、Jetson Orin NX感知延迟25 ms及三次实机任务；明确承认需要重复测量以验证可靠性。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "并非凭算法新颖性入选，而是因为其ROS2目标转换、TF、行为树与控制插件的端到端接口及失败记录可复用。",
+      "limitations": "实机仅报告三次任务，尚不足以估计可靠性；论文指出历史实验的确切部署版本未全部归档；未在用户设备验证。",
+      "experiment": "只复现视觉目标→map坐标变换→Nav2 Goal发布的最小闭环，检查时间戳、TF、异常目标过滤，使用录包或仿真而非直接连驱动。",
+      "watch": "作者仓库具体提交与许可证、传感器时间一致性、TF误差和异常恢复。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.08100",
+          "scope": "论文HTML全文、系统结构与实机报告",
+          "checked_on": "2026-11-11"
+        },
+        {
+          "id": "code",
+          "label": "作者论文关联代码组织",
+          "url": "https://github.com/KodII-rover",
+          "scope": "论文引用代码组织，未逐仓库复现",
+          "checked_on": "2026-11-11"
+        }
+      ],
+      "tags": [
+        "ROS2",
+        "RTAB-Map",
+        "Nav2",
+        "Jetson"
+      ],
+      "date_label": "arXiv v1 提交",
+      "event_date_precision": "day",
+      "action": "优先分析工程接口",
+      "order": 3,
+      "first_added": "2026-11-11",
+      "checked_on": "2026-11-11",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-11"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-11",
+          "kind": "new_paper",
+          "note": "本期首次收录，依据作者论文资料；无本人实测。"
+        }
+      ]
+    },
     {
       "id": "arxiv-2611-06308",
       "topic": "slam",
