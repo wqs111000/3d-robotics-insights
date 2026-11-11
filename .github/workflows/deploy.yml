@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Test report build and publication boundaries
+        run: node tools/test-reports.mjs
       - run: node tools/build.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -29,5 +31,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify public website and report pages
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: python3 tools/verify-site.py
