@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { buildReports } from './reports.mjs';
 const read=p=>fs.readFileSync(p,'utf8');
 const d=JSON.parse(read('content/articles.json'));
 for (const i of d.items) {
@@ -9,3 +10,4 @@ for(const issue of d.issues){if(issue.snapshots?.some(i=>i.publish_approved!==tr
 const json=JSON.stringify(d).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
 const html=read('template.html').replace('/*__CSS__*/',()=>read('styles.css')).replace('/*__DATA__*/',()=>json).replace('/*__JS__*/',()=>read('app.js'));
 fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/index.html',html);fs.writeFileSync('dist/.nojekyll','');console.log(`Built ${d.items.length} publication-approved entries`);
+buildReports({siteData:d});

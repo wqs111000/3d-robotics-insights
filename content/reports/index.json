@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "reports": [
+    {
+      "id": "report-mobile-manipulation",
+      "slug": "mobile-manipulation",
+      "title": "移动操作技术深度调研",
+      "subtitle": "从空间感知到物理交互：技术路线、证据边界与原型建议",
+      "summary": "导航到达之后，机器人怎样选择停靠位置、协调底盘与机械臂、处理接触和失败？从分层架构、VLA 与三维表示出发，给出可验证的移动操作路线。",
+      "category": "机器人系统",
+      "topics": [
+        "移动操作",
+        "三维感知",
+        "全身控制",
+        "VLA",
+        "仿真与评测"
+      ],
+      "content_file": "mobile-manipulation.md",
+      "version": "1.0",
+      "research_as_of": "2026-11-11",
+      "updated_at": "2026-11-11",
+      "publish_approved": true,
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "evidence": "公开资料调研 · 关键来源复核 · 未独立实测",
+      "provenance_note": "由既有调研稿重编为公开长文；去除私人对话与设备归属信息，保留原始来源和技术边界。",
+      "changelog": [
+        {
+          "date": "2026-11-11",
+          "version": "1.0",
+          "note": "首个公开网页版：重排为13个章节，复核关键论据，区分作者结果与工程建议；保留32条参考资料并标注补充入口的核查限制。"
+        }
+      ],
+      "related_items": [
+        "fast-livo2",
+        "isaac-ros-nvblox",
+        "isaac-sim-nav2",
+        "arxiv-2611-07417"
+      ]
+    }
+  ]
+}
