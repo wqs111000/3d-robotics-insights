@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-      - run: python3 tools/prepare-observation-sources.py
+      - run: python3 tools/observation-extras.py
       - uses: actions/upload-artifact@v4
         with:
           name: observation-source-preview
