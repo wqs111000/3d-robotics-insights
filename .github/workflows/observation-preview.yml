@@ -7,10 +7,13 @@ permissions:
 jobs:
   inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - run: python3 tools/observation-extras.py
+      - run: |
+          mkdir -p preview
+          curl --fail --location --max-time 45 --output preview/gsplat-garden.mp4 https://raw.githubusercontent.com/nerfstudio-project/gsplat/512d366b67073d77ca099ede742683c165dfc23b/docs/source/assets/viewer_garden_480p.mp4
+          sha256sum preview/gsplat-garden.mp4
       - uses: actions/upload-artifact@v4
         with:
           name: observation-source-preview
