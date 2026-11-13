@@ -1,7 +1,8 @@
 """Build attributed research figures as same-origin static report assets.
 
 Only explicitly curated HTTPS hosts may be fetched. Invalid or unavailable images
-fail the build instead of publishing broken illustrations.
+fail the build instead of publishing broken illustrations. Complete attribution
+and audit notes remain in the manifest; reader-facing credits are compact.
 """
 import hashlib
 import html
@@ -25,9 +26,8 @@ CSS = '''
 .research-figure figcaption{font-size:13px;line-height:1.85;color:#52675b;padding-top:13px;overflow-wrap:anywhere}
 .research-figure figcaption strong{display:block;color:var(--ink);font-size:14px;margin-bottom:5px}
 .research-figure .figure-credit{display:block;font-size:11px;color:var(--muted);margin-top:8px}
-.figure-hint{font-size:11px;color:var(--muted);display:block;margin-top:4px}
 @media(max-width:600px){.research-figure{padding:9px;margin:24px 0}.research-figure figcaption{font-size:12px}.research-figure figcaption strong{font-size:13px}}
-@media print{.research-figure{padding:8px;border-color:#ddd;break-inside:avoid}.research-figure img{max-height:170mm;object-fit:contain}.figure-hint{display:none}}
+@media print{.research-figure{padding:8px;border-color:#ddd;break-inside:avoid}.research-figure img{max-height:170mm;object-fit:contain}}
 '''
 
 
@@ -113,19 +113,33 @@ def insert_in_section(page, anchor, addition):
     return page[:pos] + addition + page[pos:]
 
 
+def credit_label(fig):
+    """Keep project attribution short; full author credit is also in the link title."""
+    return fig.get('credit_short') or fig['credit'].rsplit(' · ', 1)[-1]
+
+
+def license_label(url):
+    parsed = urlsplit(https_url(url))
+    if parsed.hostname == 'creativecommons.org':
+        match = re.fullmatch(r'/licenses/([a-z-]+)/([0-9.]+)/?', parsed.path)
+        if match:
+            return 'CC ' + match[1].upper() + ' ' + match[2]
+    return '许可'
+
+
 def figure_html(fig, number, filename, width, height):
     e = html.escape
     image = '../assets/' + filename
-    rights = e(fig['rights_note'])
+    credit = (f'<a href="{e(https_url(fig["source_page"]))}" title="{e(fig["credit"])}" '
+              f'aria-label="{e(fig["credit"])}" target="_blank" rel="noopener noreferrer">{e(credit_label(fig))}</a>')
     if fig.get('license_url'):
-        rights += ' <a href="' + e(https_url(fig['license_url'])) + '" target="_blank" rel="noopener noreferrer">许可说明</a>'
+        credit += (f' · <a href="{e(https_url(fig["license_url"]))}" target="_blank" '
+                   f'rel="noopener noreferrer">{e(license_label(fig["license_url"]))}</a>')
     return (f'<figure class="research-figure" id="fig-{e(fig["id"])}" data-report-figure="{e(fig["id"])}">'
-            f'<a class="figure-image" href="{image}" target="_blank" rel="noopener" aria-label="查看大图：{e(fig["title"])}">'
+            f'<a class="figure-image" href="{image}" target="_blank" rel="noopener" title="点击放大" aria-label="查看大图：{e(fig["title"])}">'
             f'<img src="{image}" alt="{e(fig["alt"])}" width="{width}" height="{height}" loading="lazy" decoding="async"></a>'
             f'<figcaption><strong>图 {number} · {e(fig["title"])}</strong>{e(fig["caption"])}'
-            f'<span class="figure-credit">图源：<a href="{e(https_url(fig["source_page"]))}" target="_blank" rel="noopener noreferrer">{e(fig["credit"])}</a>。{rights} '
-            f'图像未修改；中文图解为本站编辑说明；不是本站实测。来源核查：{e(fig["checked_on"])}。</span>'
-            '<span class="figure-hint">点击图片查看原尺寸图；手机可在新页放大。</span></figcaption></figure>\n')
+            f'<span class="figure-credit">来源：{credit}</span></figcaption></figure>\n')
 
 
 def build_figures(root=ROOT, downloader=fetch_image):
@@ -162,9 +176,11 @@ def build_figures(root=ROOT, downloader=fetch_image):
             (assets / filename).write_bytes(data)
             page = insert_in_section(page, fig['section'], figure_html(fig, number, filename, width, height))
             picture_url = urljoin(public, 'reports/assets/' + filename)
+            credit = f'来源：[{credit_label(fig)}]({fig["source_page"]})'
+            if fig.get('license_url'):
+                credit += f' · [{license_label(fig["license_url"])}]({fig["license_url"]})'
             block = (f'\n![{fig["alt"]}]({picture_url})\n\n'
-                     f'**图 {number} · {fig["title"]}。** {fig["caption"]}\n\n'
-                     f'图源：[{fig["credit"]}]({fig["source_page"]})。{fig["rights_note"]} 图像未修改；非本站实测。\n\n')
+                     f'**图 {number} · {fig["title"]}。** {fig["caption"]}\n\n{credit}\n\n')
             section = re.search(r'(?m)^## .+\{#' + re.escape(fig['section']) + r'\}\s*$', markdown)
             if not section:
                 raise ValueError('Markdown section does not match figure')
