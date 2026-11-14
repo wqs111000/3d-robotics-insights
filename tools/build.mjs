@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { buildReports } from './reports.mjs';
+import { buildObservations } from './observations.mjs';
 const read=p=>fs.readFileSync(p,'utf8');
 const d=JSON.parse(read('content/articles.json'));
 for (const i of d.items) {
@@ -12,6 +13,7 @@ const json=JSON.stringify(d).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028'
 const html=read('template.html').replace('/*__CSS__*/',()=>read('styles.css')).replace('/*__DATA__*/',()=>json).replace('/*__JS__*/',()=>read('app.js'));
 fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/index.html',html);fs.writeFileSync('dist/.nojekyll','');console.log(`Built ${d.items.length} publication-approved entries`);
 buildReports({siteData:d});
+buildObservations({data:d});
 for (const script of ['tools/test-figures.py','tools/illustrate.py','tools/presentation_checks.py']) {
  const result=spawnSync('python3',[script],{stdio:'inherit'});
  if(result.error || result.status!==0) throw new Error(`Report build stage failed: ${script}`);

@@ -40,6 +40,21 @@ for attempt in range(12):
         time.sleep(5)
 
 home = fetch('')
+if '<h1>技术观察</h1>' not in home:
+    raise RuntimeError('Homepage observation heading is missing')
+
+with open('content/articles.json', 'r', encoding='utf-8') as stream:
+    observation_data = json.load(stream)
+for item in observation_data['items']:
+    if item.get('publish_approved') is not True:
+        raise RuntimeError('Unapproved observation in public build')
+    page = fetch('observations/' + item['id'] + '/')
+    if '<h1>' + html.escape(item['title']) + '</h1>' not in page:
+        raise RuntimeError('Observation title missing: ' + item['id'])
+    if '<figure class="mechanism"' not in page:
+        raise RuntimeError('Observation mechanism diagram missing: ' + item['id'])
+print('Verified independent observation articles:', len(observation_data['items']), flush=True)
+
 if 'data-reports-nav' not in home or 'href="reports/"' not in home:
     raise RuntimeError('Homepage report entry is missing')
 if '<h1>深度报告</h1>' not in fetch('reports/'):
@@ -84,7 +99,7 @@ for asset in ['reports/reports.css', 'reports/reports.js']:
     if not fetch(asset).strip():
         raise RuntimeError('Empty report asset: ' + asset)
 result = {'status': 'verified', 'commit': expected, 'site': base,
-          'report_count': len(reports), 'figure_count': len(figures),
+          'report_count': len(reports), 'observation_count': len(observation_data['items']), 'figure_count': len(figures),
           'verified_at_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
 print(json.dumps(result, ensure_ascii=False), flush=True)
 if os.environ.get('GITHUB_STEP_SUMMARY'):
