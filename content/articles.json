@@ -9,13 +9,13 @@
     "published_at": "2026-11-01",
     "last_content_update": "2026-11-14",
     "disclaimer": "内容先发布并持续检查；公开资料核对不等于本人逐条审阅或独立实测。",
-    "publication_note": "第005期仓库内容已准备，Pages 发布与公开网站核验尚未完成。",
+    "publication_note": "第005期已公开上线并通过访问及逐篇文章检查；来源核查不等于本人审阅或实测。",
     "published_at_note": "沿用现有两期记录的发布日期，非经核实的站点首次部署时间。",
     "last_verified_deployment": {
-      "commit": "6867f903c93ca518e67da14394f728e72d09e122",
-      "completed_at": "2026-11-02T17:40:16+08:00",
-      "workflow_run": "https://github.com/wqs111000/3d-robotics-insights/actions/runs/41422494932",
-      "note": "部署及线上两期编号已核验；此记录为历史核验，不自动反映后续部署。"
+      "commit": "9210d174eea243b1cbf2c96ffe04a3a315e5ddf4",
+      "completed_at": "2026-11-14T10:07:54+08:00",
+      "workflow_run": "https://github.com/wqs111000/3d-robotics-insights/actions/runs/43544520425",
+      "note": "第005期与21篇静态详情页、两篇深度报告和8幅图像核验成功；本记录对应2026-11-14 10:07的已验证版本。"
     }
   },
   "schedule": {
@@ -1178,8 +1178,8 @@
       "title": "005 · 可信空间状态与闭环动作",
       "date": "2026-11-14",
       "kind": "update",
-      "status": "pending_deployment_verification",
-      "published_at": null,
+      "status": "published",
+      "published_at": "2026-11-14T10:07:52+08:00",
       "description": "可信 LIVO、多尺度地图、三维重定位、ObjectNav 信念与可复现的短时仿真任务。",
       "focus_title": "空间智能的改进要能被隔离验证",
       "focus_summary": "选择五项新研究，重视时延、不确定性与工程可复现性，不把论文成绩当实测。",
@@ -1567,25 +1567,25 @@
     "slam": {
       "baseline_established_on": "2026-10-11",
       "last_successful_scan": "2026-11-14",
-      "last_successful_publish": null,
+      "last_successful_publish": "2026-11-14",
       "coverage": "selected_sources_only"
     },
     "reconstruction": {
       "baseline_established_on": "2026-10-11",
       "last_successful_scan": "2026-11-14",
-      "last_successful_publish": null,
+      "last_successful_publish": "2026-11-14",
       "coverage": "selected_sources_only"
     },
     "navigation": {
       "baseline_established_on": "2026-10-11",
       "last_successful_scan": "2026-11-14",
-      "last_successful_publish": null,
+      "last_successful_publish": "2026-11-14",
       "coverage": "selected_sources_only"
     },
     "simulation": {
       "baseline_established_on": "2026-10-11",
       "last_successful_scan": "2026-11-14",
-      "last_successful_publish": null,
+      "last_successful_publish": "2026-11-14",
       "coverage": "selected_sources_only"
     }
   },
@@ -2996,5 +2996,22 @@
       "publish_approved": true
     }
   ],
-  "update_log": []
+  "update_log": [
+    {
+      "date": "2026-11-14",
+      "issue_id": "issue-2026-11-14",
+      "kind": "public_deployment_verified",
+      "added_item_ids": [
+        "arxiv-2611-16205",
+        "arxiv-2611-16918",
+        "arxiv-2611-13528",
+        "arxiv-2611-15689",
+        "arxiv-2611-17163"
+      ],
+      "source_checked_on": "2026-11-14",
+      "verified_commit": "9210d174eea243b1cbf2c96ffe04a3a315e5ddf4",
+      "verified_at": "2026-11-14T10:07:54+08:00",
+      "notes": "新增5条并保留原16条；21篇独立技术观察详情页含原创机制示意；公开来源复核，未实测。"
+    }
+  ]
 }

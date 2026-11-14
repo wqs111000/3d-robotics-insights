@@ -9,8 +9,8 @@
     "title": "005 · 可信空间状态与闭环动作",
     "date": "2026-11-14",
     "kind": "update",
-    "status": "pending_deployment_verification",
-    "published_at": null,
+    "status": "published",
+    "published_at": "2026-11-14T10:07:52+08:00",
     "description": "可信 LIVO、多尺度地图、三维重定位、ObjectNav 信念与可复现的短时仿真任务。",
     "focus_title": "空间智能的改进要能被隔离验证",
     "focus_summary": "选择五项新研究，重视时延、不确定性与工程可复现性，不把论文成绩当实测。",
@@ -787,5 +787,11 @@
     }
   },
   "evidence": "public_material_checked",
-  "deployment": "pending_verification"
+  "deployment": "verified",
+  "verified_public_release": {
+    "commit": "9210d174eea243b1cbf2c96ffe04a3a315e5ddf4",
+    "verified_at": "2026-11-14T10:07:54+08:00",
+    "workflow_run": "https://github.com/wqs111000/3d-robotics-insights/actions/runs/43544520425",
+    "note": "此为此前已核验的网页版本；结构化补丁状态回填将触发新的部署，需再核验。"
+  }
 }
