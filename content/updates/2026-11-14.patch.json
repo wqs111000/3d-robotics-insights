@@ -1,0 +1,791 @@
+{
+  "schema_version": 1,
+  "edition": "005",
+  "prepared_on": "2026-11-14",
+  "prior_issue": "issue-2026-11-11",
+  "issue": {
+    "id": "issue-2026-11-14",
+    "number": "005",
+    "title": "005 · 可信空间状态与闭环动作",
+    "date": "2026-11-14",
+    "kind": "update",
+    "status": "pending_deployment_verification",
+    "published_at": null,
+    "description": "可信 LIVO、多尺度地图、三维重定位、ObjectNav 信念与可复现的短时仿真任务。",
+    "focus_title": "空间智能的改进要能被隔离验证",
+    "focus_summary": "选择五项新研究，重视时延、不确定性与工程可复现性，不把论文成绩当实测。",
+    "item_ids": [
+      "arxiv-2611-16205",
+      "arxiv-2611-16918",
+      "arxiv-2611-13528",
+      "arxiv-2611-15689",
+      "arxiv-2611-17163"
+    ],
+    "snapshots": [
+      {
+        "id": "arxiv-2611-16205",
+        "topic": "slam",
+        "name": "QVS-LIVO RiskMap",
+        "title": "多相机 LIVO：可信视觉用于定位，更多视角用于风险地图",
+        "event_date": "2026-11-12",
+        "summary": "定位状态每次最多接纳一个合格视角的视觉校正，语义风险地图则利用各路可用视觉观测。",
+        "tags": [
+          "LIVO",
+          "多相机",
+          "故障门控",
+          "风险地图"
+        ],
+        "facts": [
+          {
+            "text": "论文在共享 LIO 后验上对各相机进行只读预跟踪，根据观测健康度、几何互补、切换迟滞和更新验收决定是否做视觉校正；失败时保留 LIO 后验。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "作者报告两段野外序列的水平 RMSE 为 0.910 m、1.664 m；受损长路线相比 FAST-LIO2 降低 43.3% 误差，测试包含黑帧、丢帧与 60 ms 时间戳偏移。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "论文报告 Jetson AGX Orin 上局部/全局地图 9.94/2.00 Hz；但公开 ROS 2 Humble 仓库只提供定位主线，明确不包含语义分割、2.5D 风险地图与实验数据。",
+            "source_ids": [
+              "paper",
+              "code"
+            ]
+          }
+        ],
+        "judgment": "借鉴重点是估计器“选择可信相机”与语义层“聚合全部视角”的解耦。可把感知健康管理作为独立模块评估，而非仅增加相机数量。",
+        "limitations": "实车成绩和速度均为作者实验；公开代码不覆盖完整 RiskMap，默认相机/激光配置不能推定支持其他传感器。须核对 GPLv2 及第三方许可；未编译或实测。",
+        "experiment": "离线回放多相机与 LIO 录包，注入单路黑帧、丢帧及 +60 ms 偏移；同一轨迹对比固定视角、质量门控和纯 LIO 的 RTE、轨迹完整率与错误更新率。",
+        "watch": "完整语义风险地图代码、故障门控消融、不同激光/相机适配。",
+        "sources": [
+          {
+            "id": "paper",
+            "label": "作者论文 · arXiv",
+            "url": "https://arxiv.org/abs/2611.16205",
+            "scope": "2026-11-12 提交；方法和作者评测",
+            "checked_on": "2026-11-14"
+          },
+          {
+            "id": "code",
+            "label": "作者 ROS 2 定位代码 · GitHub",
+            "url": "https://github.com/zihanPan-HIT/QVS-LIVO",
+            "scope": "README 确认已公开范围；仓库不是本周新开源事件",
+            "checked_on": "2026-11-14"
+          }
+        ],
+        "order": 1,
+        "date_label": "arXiv v1 提交",
+        "event_date_precision": "day",
+        "action": "研究与最小验证",
+        "first_added": "2026-11-14",
+        "checked_on": "2026-11-14",
+        "revision": 1,
+        "evidence": "public_material_checked",
+        "owner_reviewed": false,
+        "independently_tested": false,
+        "publish_approved": true,
+        "issue_ids": [
+          "issue-2026-11-14"
+        ],
+        "change_kind": "new_paper",
+        "changes": [
+          {
+            "date": "2026-11-14",
+            "kind": "new_paper",
+            "note": "本期首次收录论文，核对公开资料；未独立复现。"
+          }
+        ]
+      },
+      {
+        "id": "arxiv-2611-16918",
+        "topic": "slam",
+        "name": "CT-SGAL-LIO",
+        "title": "连续轨迹不必重做 SLAM：在离散 LIO 后验上做固定时滞精炼",
+        "event_date": "2026-11-12",
+        "summary": "给离散 LIO 位姿流增加一个与地图解耦的因果连续时间后处理层，专门缓解短时位姿跳变。",
+        "tags": [
+          "LIO",
+          "连续时间",
+          "SE(3)",
+          "控制延迟"
+        ],
+        "facts": [
+          {
+            "text": "在最近位姿后验上做局部 SE(3) 鲁棒三次曲线拟合，并在固定时滞处插值；不修改底层滤波器、原始传感器残差与地图。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "作者在 GRAND-TOUR、MCD 与 GEODE 共 17 条序列评测，GEODE 七条序列短窗口相对轨迹误差下降 9.9%–51.1%；这不是 ATE 同比提升。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "作者配置采用约 0.3 s 拟合窗口和 0.2 s 输出时滞；论文称计划开放代码，目前不能视为已可复现的实现。",
+            "source_ids": [
+              "paper"
+            ]
+          }
+        ],
+        "judgment": "短时 RTE 与输出连续性可能比平均 ATE 更影响控制和外参投影。但固定时滞也可能削弱避障实时性，不能只看平滑后的轨迹曲线。",
+        "limitations": "基于 LIMOncello 的 SGal(3) 后验验证，尚无 FAST-LIVO2 等其他系统的独立复现；作者仅称 ICRA 2027 投稿，非已录用。代码待公开。",
+        "experiment": "对同一段离线 TF/LIO 位姿流比较原始、线性插值和固定时滞三次拟合，测 RTE、角速度跳变、加速阶段过平滑及 P95 轨迹发布滞后。",
+        "watch": "代码开放、窗口和时滞敏感性、快速机动下的跟踪代价。",
+        "sources": [
+          {
+            "id": "paper",
+            "label": "作者论文 · arXiv",
+            "url": "https://arxiv.org/abs/2611.16918",
+            "scope": "2026-11-12 提交；17 条序列，代码尚未公开",
+            "checked_on": "2026-11-14"
+          }
+        ],
+        "order": 2,
+        "date_label": "arXiv v1 提交",
+        "event_date_precision": "day",
+        "action": "研究与最小验证",
+        "first_added": "2026-11-14",
+        "checked_on": "2026-11-14",
+        "revision": 1,
+        "evidence": "public_material_checked",
+        "owner_reviewed": false,
+        "independently_tested": false,
+        "publish_approved": true,
+        "issue_ids": [
+          "issue-2026-11-14"
+        ],
+        "change_kind": "new_paper",
+        "changes": [
+          {
+            "date": "2026-11-14",
+            "kind": "new_paper",
+            "note": "本期首次收录论文，核对公开资料；未独立复现。"
+          }
+        ]
+      },
+      {
+        "id": "arxiv-2611-13528",
+        "topic": "reconstruction",
+        "name": "GEMOR-GS",
+        "title": "从好看的 3DGS 地图到可恢复的 SLAM：外参、全局优化和重定位",
+        "event_date": "2026-11-10",
+        "summary": "把 LiDAR-相机外参细化、Gaussian 地图的离线全局重建，以及跟踪丢失后的地图重定位串成一条链路。",
+        "tags": [
+          "3DGS",
+          "外参标定",
+          "重定位",
+          "场景表达"
+        ],
+        "facts": [
+          {
+            "text": "作者先用专用标定片段优化激光—相机外参，再交替优化关键帧位姿和 Gaussian；失跟后以 XFeat、RANSAC-PnP 和 RGB-D warp 恢复定位。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "论文在一段自采与五段公开序列上报告相对 Gaussian-LIC2 的 PSNR 约提升 9 dB，留出帧重定位成功率 86%–100%，受场景和设定限制。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "虽然论文列出项目代码链接，本轮 GitHub 仓库查询返回 404；无法验证源码或自采数据已开放，不把“论文声称开放”写成“可下载复现”。",
+            "source_ids": [
+              "paper",
+              "code"
+            ]
+          }
+        ],
+        "judgment": "三维场景表达要进入机器人系统，除了渲染质量，还必须回答尺度与外参是否可靠、回环/全局地图是否一致、失跟后能否重新进入；PSNR 不能代表碰撞地图质量。",
+        "limitations": "仅核对论文，未拿到作者仓库、设备、标定数据，未评估几何误差与实时耗时；重定位成功率不可跨协议比较。",
+        "experiment": "准备同一组公开 RGB-D/激光序列，设置外参扰动和回访失跟点；分别评估 PSNR、几何深度误差、恢复位置误差及耗时。源码可用前只建立基线协议。",
+        "watch": "官方链接恢复、公开代码和自采数据、外参敏感性、可通行几何误差。",
+        "sources": [
+          {
+            "id": "paper",
+            "label": "作者论文 · arXiv",
+            "url": "https://arxiv.org/abs/2611.13528",
+            "scope": "2026-11-10 提交；作者实验",
+            "checked_on": "2026-11-14"
+          },
+          {
+            "id": "code",
+            "label": "论文提供的代码入口（本轮 404）",
+            "url": "https://github.com/Vector-4D/gemor-gs",
+            "scope": "截至本轮不可访问，不作为代码公开证据",
+            "checked_on": "2026-11-14"
+          }
+        ],
+        "order": 3,
+        "date_label": "arXiv v1 提交",
+        "event_date_precision": "day",
+        "action": "研究与最小验证",
+        "first_added": "2026-11-14",
+        "checked_on": "2026-11-14",
+        "revision": 1,
+        "evidence": "public_material_checked",
+        "owner_reviewed": false,
+        "independently_tested": false,
+        "publish_approved": true,
+        "issue_ids": [
+          "issue-2026-11-14"
+        ],
+        "change_kind": "new_paper",
+        "changes": [
+          {
+            "date": "2026-11-14",
+            "kind": "new_paper",
+            "note": "本期首次收录论文，核对公开资料；未独立复现。"
+          }
+        ]
+      },
+      {
+        "id": "arxiv-2611-15689",
+        "topic": "navigation",
+        "name": "BAMOS",
+        "title": "主动 ObjectNav：一次没识别到目标，不意味着那个区域没有目标",
+        "event_date": "2026-11-11",
+        "summary": "将目标位置/尺寸 belief、占据状态和检测器误报漏报分开维护，用概率更新支持下一观察点与停止决策。",
+        "tags": [
+          "ObjectNav",
+          "Bayesian belief",
+          "假阴性",
+          "Isaac Sim"
+        ],
+        "facts": [
+          {
+            "text": "作者提出 Bayesian Active Miss-aware Object Search，把成功检测与未检测事件都写入概率信念，并按预期信息增益选择下一观察视点。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "作者在 Isaac Sim 仓库房间与 HSSD 家居场景，对不同检测误差设置进行消融，发现 detector 更不可靠时，目标 belief 的更新更重要。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "官方 Python 仓库提供 belief、规划器、Isaac Sim/HSSD 测试配置及检测器服务脚本；仓库 2026-10 已创建，本周事件是论文提交而非代码首次发布。",
+            "source_ids": [
+              "paper",
+              "code"
+            ]
+          }
+        ],
+        "judgment": "对开放词汇导航，更便于验证的世界模型基础是“目标可能在哪里、哪些区域未被可靠排除”，而不是只存检测框或直接叠加更大的 VLM。",
+        "limitations": "作者仿真候选位姿受可通行区域约束，不能据此证明完整未知场景建图能力；未在机器人或真实检测器噪声下独立验证。",
+        "experiment": "在一个固定 Occupancy Grid 上人工注入假阴性和假阳性，对比“最后一次检测”“目标概率热图”“概率热图+检测器误差建模”的发现率、查询次数、误停率和探索距离。",
+        "watch": "错误率跨环境校准、视点真实可达性、记忆过期和动态目标。",
+        "sources": [
+          {
+            "id": "paper",
+            "label": "作者论文 · arXiv",
+            "url": "https://arxiv.org/abs/2611.15689",
+            "scope": "2026-11-11 首次提交；作者仿真消融",
+            "checked_on": "2026-11-14"
+          },
+          {
+            "id": "code",
+            "label": "作者官方实现 · GitHub",
+            "url": "https://github.com/gokyeongryeol/BAMOS",
+            "scope": "2026-10 已存在代码；未运行",
+            "checked_on": "2026-11-14"
+          }
+        ],
+        "order": 4,
+        "date_label": "arXiv v1 提交",
+        "event_date_precision": "day",
+        "action": "研究与最小验证",
+        "first_added": "2026-11-14",
+        "checked_on": "2026-11-14",
+        "revision": 1,
+        "evidence": "public_material_checked",
+        "owner_reviewed": false,
+        "independently_tested": false,
+        "publish_approved": true,
+        "issue_ids": [
+          "issue-2026-11-14"
+        ],
+        "change_kind": "new_paper",
+        "changes": [
+          {
+            "date": "2026-11-14",
+            "kind": "new_paper",
+            "note": "本期首次收录论文，核对公开资料；未独立复现。"
+          }
+        ]
+      },
+      {
+        "id": "arxiv-2611-17163",
+        "topic": "simulation",
+        "name": "UAV-Flow++",
+        "title": "从语言路线到可检验连续动作：近距离飞行任务的仿真—实机接口",
+        "event_date": "2026-11-12",
+        "summary": "针对近距离的物体相对飞行动作，建立短指令、机载视觉与动力学状态到连续动作的闭环任务和仿真评测。",
+        "tags": [
+          "语言导航",
+          "UAV",
+          "连续动作",
+          "Sim-to-Real"
+        ],
+        "facts": [
+          {
+            "text": "论文定义 Flying-on-a-Word 八类动作，报告采集 30,692 条真实飞行和 10,109 条仿真轨迹，构建含任务完成判据的 UAV-Flow-Sim。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "FlowVLA 使用真实/仿真示范预训练和 Tail-Aware GRPO 后训练；作者在 273 个留出仿真 episode 报告 75.58%→93.16% 平均任务成功率。",
+            "source_ids": [
+              "paper"
+            ]
+          },
+          {
+            "text": "论文还展示实体 UAV 室内外试飞，但本轮未确认数据集和仿真/训练代码的开放下载入口；研究数据量不能等同于已可复现的公开资产。",
+            "source_ids": [
+              "paper"
+            ]
+          }
+        ],
+        "judgment": "真正可迁移到地面 VLN 的，是把语言目标拆成带动力学与停止判据的短时闭环动作，再建立可重复的仿真任务，而不是套用 UAV 的低层控制策略。",
+        "limitations": "273 次仿真测试不能证明长期实机安全；气动与足/轮式底盘不同；作者报告和独立部署之间仍有距离。",
+        "experiment": "在 Isaac Sim 中用简化平面机器人实现“靠近/绕过/保持距离/左侧通过”小任务集，以同一局部控制器对比语言→轨迹和语言→显式 waypoint 两种接口的碰撞、完成率和决策延时。",
+        "watch": "公开数据与代码、任务成功判据、真实飞行统计和不同机体动态适配。",
+        "sources": [
+          {
+            "id": "paper",
+            "label": "作者论文 · arXiv",
+            "url": "https://arxiv.org/abs/2611.17163",
+            "scope": "2026-11-12 提交；作者基准与实机报告",
+            "checked_on": "2026-11-14"
+          }
+        ],
+        "order": 5,
+        "date_label": "arXiv v1 提交",
+        "event_date_precision": "day",
+        "action": "研究与最小验证",
+        "first_added": "2026-11-14",
+        "checked_on": "2026-11-14",
+        "revision": 1,
+        "evidence": "public_material_checked",
+        "owner_reviewed": false,
+        "independently_tested": false,
+        "publish_approved": true,
+        "issue_ids": [
+          "issue-2026-11-14"
+        ],
+        "change_kind": "new_paper",
+        "changes": [
+          {
+            "date": "2026-11-14",
+            "kind": "new_paper",
+            "note": "本期首次收录论文，核对公开资料；未独立复现。"
+          }
+        ]
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": "arxiv-2611-16205",
+      "topic": "slam",
+      "name": "QVS-LIVO RiskMap",
+      "title": "多相机 LIVO：可信视觉用于定位，更多视角用于风险地图",
+      "event_date": "2026-11-12",
+      "summary": "定位状态每次最多接纳一个合格视角的视觉校正，语义风险地图则利用各路可用视觉观测。",
+      "tags": [
+        "LIVO",
+        "多相机",
+        "故障门控",
+        "风险地图"
+      ],
+      "facts": [
+        {
+          "text": "论文在共享 LIO 后验上对各相机进行只读预跟踪，根据观测健康度、几何互补、切换迟滞和更新验收决定是否做视觉校正；失败时保留 LIO 后验。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告两段野外序列的水平 RMSE 为 0.910 m、1.664 m；受损长路线相比 FAST-LIO2 降低 43.3% 误差，测试包含黑帧、丢帧与 60 ms 时间戳偏移。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "论文报告 Jetson AGX Orin 上局部/全局地图 9.94/2.00 Hz；但公开 ROS 2 Humble 仓库只提供定位主线，明确不包含语义分割、2.5D 风险地图与实验数据。",
+          "source_ids": [
+            "paper",
+            "code"
+          ]
+        }
+      ],
+      "judgment": "借鉴重点是估计器“选择可信相机”与语义层“聚合全部视角”的解耦。可把感知健康管理作为独立模块评估，而非仅增加相机数量。",
+      "limitations": "实车成绩和速度均为作者实验；公开代码不覆盖完整 RiskMap，默认相机/激光配置不能推定支持其他传感器。须核对 GPLv2 及第三方许可；未编译或实测。",
+      "experiment": "离线回放多相机与 LIO 录包，注入单路黑帧、丢帧及 +60 ms 偏移；同一轨迹对比固定视角、质量门控和纯 LIO 的 RTE、轨迹完整率与错误更新率。",
+      "watch": "完整语义风险地图代码、故障门控消融、不同激光/相机适配。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.16205",
+          "scope": "2026-11-12 提交；方法和作者评测",
+          "checked_on": "2026-11-14"
+        },
+        {
+          "id": "code",
+          "label": "作者 ROS 2 定位代码 · GitHub",
+          "url": "https://github.com/zihanPan-HIT/QVS-LIVO",
+          "scope": "README 确认已公开范围；仓库不是本周新开源事件",
+          "checked_on": "2026-11-14"
+        }
+      ],
+      "order": 1,
+      "date_label": "arXiv v1 提交",
+      "event_date_precision": "day",
+      "action": "研究与最小验证",
+      "first_added": "2026-11-14",
+      "checked_on": "2026-11-14",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-14"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-14",
+          "kind": "new_paper",
+          "note": "本期首次收录论文，核对公开资料；未独立复现。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-16918",
+      "topic": "slam",
+      "name": "CT-SGAL-LIO",
+      "title": "连续轨迹不必重做 SLAM：在离散 LIO 后验上做固定时滞精炼",
+      "event_date": "2026-11-12",
+      "summary": "给离散 LIO 位姿流增加一个与地图解耦的因果连续时间后处理层，专门缓解短时位姿跳变。",
+      "tags": [
+        "LIO",
+        "连续时间",
+        "SE(3)",
+        "控制延迟"
+      ],
+      "facts": [
+        {
+          "text": "在最近位姿后验上做局部 SE(3) 鲁棒三次曲线拟合，并在固定时滞处插值；不修改底层滤波器、原始传感器残差与地图。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者在 GRAND-TOUR、MCD 与 GEODE 共 17 条序列评测，GEODE 七条序列短窗口相对轨迹误差下降 9.9%–51.1%；这不是 ATE 同比提升。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者配置采用约 0.3 s 拟合窗口和 0.2 s 输出时滞；论文称计划开放代码，目前不能视为已可复现的实现。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "短时 RTE 与输出连续性可能比平均 ATE 更影响控制和外参投影。但固定时滞也可能削弱避障实时性，不能只看平滑后的轨迹曲线。",
+      "limitations": "基于 LIMOncello 的 SGal(3) 后验验证，尚无 FAST-LIVO2 等其他系统的独立复现；作者仅称 ICRA 2027 投稿，非已录用。代码待公开。",
+      "experiment": "对同一段离线 TF/LIO 位姿流比较原始、线性插值和固定时滞三次拟合，测 RTE、角速度跳变、加速阶段过平滑及 P95 轨迹发布滞后。",
+      "watch": "代码开放、窗口和时滞敏感性、快速机动下的跟踪代价。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.16918",
+          "scope": "2026-11-12 提交；17 条序列，代码尚未公开",
+          "checked_on": "2026-11-14"
+        }
+      ],
+      "order": 2,
+      "date_label": "arXiv v1 提交",
+      "event_date_precision": "day",
+      "action": "研究与最小验证",
+      "first_added": "2026-11-14",
+      "checked_on": "2026-11-14",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-14"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-14",
+          "kind": "new_paper",
+          "note": "本期首次收录论文，核对公开资料；未独立复现。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-13528",
+      "topic": "reconstruction",
+      "name": "GEMOR-GS",
+      "title": "从好看的 3DGS 地图到可恢复的 SLAM：外参、全局优化和重定位",
+      "event_date": "2026-11-10",
+      "summary": "把 LiDAR-相机外参细化、Gaussian 地图的离线全局重建，以及跟踪丢失后的地图重定位串成一条链路。",
+      "tags": [
+        "3DGS",
+        "外参标定",
+        "重定位",
+        "场景表达"
+      ],
+      "facts": [
+        {
+          "text": "作者先用专用标定片段优化激光—相机外参，再交替优化关键帧位姿和 Gaussian；失跟后以 XFeat、RANSAC-PnP 和 RGB-D warp 恢复定位。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "论文在一段自采与五段公开序列上报告相对 Gaussian-LIC2 的 PSNR 约提升 9 dB，留出帧重定位成功率 86%–100%，受场景和设定限制。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "虽然论文列出项目代码链接，本轮 GitHub 仓库查询返回 404；无法验证源码或自采数据已开放，不把“论文声称开放”写成“可下载复现”。",
+          "source_ids": [
+            "paper",
+            "code"
+          ]
+        }
+      ],
+      "judgment": "三维场景表达要进入机器人系统，除了渲染质量，还必须回答尺度与外参是否可靠、回环/全局地图是否一致、失跟后能否重新进入；PSNR 不能代表碰撞地图质量。",
+      "limitations": "仅核对论文，未拿到作者仓库、设备、标定数据，未评估几何误差与实时耗时；重定位成功率不可跨协议比较。",
+      "experiment": "准备同一组公开 RGB-D/激光序列，设置外参扰动和回访失跟点；分别评估 PSNR、几何深度误差、恢复位置误差及耗时。源码可用前只建立基线协议。",
+      "watch": "官方链接恢复、公开代码和自采数据、外参敏感性、可通行几何误差。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.13528",
+          "scope": "2026-11-10 提交；作者实验",
+          "checked_on": "2026-11-14"
+        },
+        {
+          "id": "code",
+          "label": "论文提供的代码入口（本轮 404）",
+          "url": "https://github.com/Vector-4D/gemor-gs",
+          "scope": "截至本轮不可访问，不作为代码公开证据",
+          "checked_on": "2026-11-14"
+        }
+      ],
+      "order": 3,
+      "date_label": "arXiv v1 提交",
+      "event_date_precision": "day",
+      "action": "研究与最小验证",
+      "first_added": "2026-11-14",
+      "checked_on": "2026-11-14",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-14"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-14",
+          "kind": "new_paper",
+          "note": "本期首次收录论文，核对公开资料；未独立复现。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-15689",
+      "topic": "navigation",
+      "name": "BAMOS",
+      "title": "主动 ObjectNav：一次没识别到目标，不意味着那个区域没有目标",
+      "event_date": "2026-11-11",
+      "summary": "将目标位置/尺寸 belief、占据状态和检测器误报漏报分开维护，用概率更新支持下一观察点与停止决策。",
+      "tags": [
+        "ObjectNav",
+        "Bayesian belief",
+        "假阴性",
+        "Isaac Sim"
+      ],
+      "facts": [
+        {
+          "text": "作者提出 Bayesian Active Miss-aware Object Search，把成功检测与未检测事件都写入概率信念，并按预期信息增益选择下一观察视点。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者在 Isaac Sim 仓库房间与 HSSD 家居场景，对不同检测误差设置进行消融，发现 detector 更不可靠时，目标 belief 的更新更重要。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "官方 Python 仓库提供 belief、规划器、Isaac Sim/HSSD 测试配置及检测器服务脚本；仓库 2026-10 已创建，本周事件是论文提交而非代码首次发布。",
+          "source_ids": [
+            "paper",
+            "code"
+          ]
+        }
+      ],
+      "judgment": "对开放词汇导航，更便于验证的世界模型基础是“目标可能在哪里、哪些区域未被可靠排除”，而不是只存检测框或直接叠加更大的 VLM。",
+      "limitations": "作者仿真候选位姿受可通行区域约束，不能据此证明完整未知场景建图能力；未在机器人或真实检测器噪声下独立验证。",
+      "experiment": "在一个固定 Occupancy Grid 上人工注入假阴性和假阳性，对比“最后一次检测”“目标概率热图”“概率热图+检测器误差建模”的发现率、查询次数、误停率和探索距离。",
+      "watch": "错误率跨环境校准、视点真实可达性、记忆过期和动态目标。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.15689",
+          "scope": "2026-11-11 首次提交；作者仿真消融",
+          "checked_on": "2026-11-14"
+        },
+        {
+          "id": "code",
+          "label": "作者官方实现 · GitHub",
+          "url": "https://github.com/gokyeongryeol/BAMOS",
+          "scope": "2026-10 已存在代码；未运行",
+          "checked_on": "2026-11-14"
+        }
+      ],
+      "order": 4,
+      "date_label": "arXiv v1 提交",
+      "event_date_precision": "day",
+      "action": "研究与最小验证",
+      "first_added": "2026-11-14",
+      "checked_on": "2026-11-14",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-14"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-14",
+          "kind": "new_paper",
+          "note": "本期首次收录论文，核对公开资料；未独立复现。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-17163",
+      "topic": "simulation",
+      "name": "UAV-Flow++",
+      "title": "从语言路线到可检验连续动作：近距离飞行任务的仿真—实机接口",
+      "event_date": "2026-11-12",
+      "summary": "针对近距离的物体相对飞行动作，建立短指令、机载视觉与动力学状态到连续动作的闭环任务和仿真评测。",
+      "tags": [
+        "语言导航",
+        "UAV",
+        "连续动作",
+        "Sim-to-Real"
+      ],
+      "facts": [
+        {
+          "text": "论文定义 Flying-on-a-Word 八类动作，报告采集 30,692 条真实飞行和 10,109 条仿真轨迹，构建含任务完成判据的 UAV-Flow-Sim。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "FlowVLA 使用真实/仿真示范预训练和 Tail-Aware GRPO 后训练；作者在 273 个留出仿真 episode 报告 75.58%→93.16% 平均任务成功率。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "论文还展示实体 UAV 室内外试飞，但本轮未确认数据集和仿真/训练代码的开放下载入口；研究数据量不能等同于已可复现的公开资产。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "真正可迁移到地面 VLN 的，是把语言目标拆成带动力学与停止判据的短时闭环动作，再建立可重复的仿真任务，而不是套用 UAV 的低层控制策略。",
+      "limitations": "273 次仿真测试不能证明长期实机安全；气动与足/轮式底盘不同；作者报告和独立部署之间仍有距离。",
+      "experiment": "在 Isaac Sim 中用简化平面机器人实现“靠近/绕过/保持距离/左侧通过”小任务集，以同一局部控制器对比语言→轨迹和语言→显式 waypoint 两种接口的碰撞、完成率和决策延时。",
+      "watch": "公开数据与代码、任务成功判据、真实飞行统计和不同机体动态适配。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.17163",
+          "scope": "2026-11-12 提交；作者基准与实机报告",
+          "checked_on": "2026-11-14"
+        }
+      ],
+      "order": 5,
+      "date_label": "arXiv v1 提交",
+      "event_date_precision": "day",
+      "action": "研究与最小验证",
+      "first_added": "2026-11-14",
+      "checked_on": "2026-11-14",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-14"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-14",
+          "kind": "new_paper",
+          "note": "本期首次收录论文，核对公开资料；未独立复现。"
+        }
+      ]
+    }
+  ],
+  "topics_checked": {
+    "slam": {
+      "checked_on": "2026-11-14",
+      "coverage": "selected_sources_only",
+      "scope": "FAST-LIVO2 官方仓库、QVS-LIVO ROS2 代码及 LIO/LIVO 新论文"
+    },
+    "reconstruction": {
+      "checked_on": "2026-11-14",
+      "coverage": "selected_sources_only",
+      "scope": "gsplat 官方文档、3DGS SLAM 论文与失效的作者代码链接"
+    },
+    "navigation": {
+      "checked_on": "2026-11-14",
+      "coverage": "selected_sources_only",
+      "scope": "InternNav 官方仓库、ObjectNav/VLN 论文与 BAMOS 作者代码"
+    },
+    "simulation": {
+      "checked_on": "2026-11-14",
+      "coverage": "selected_sources_only",
+      "scope": "Isaac Sim 6.0.1 官方导航教程、Isaac ROS Nvblox 文档、UAV-Flow++ 仿真论文"
+    }
+  },
+  "evidence": "public_material_checked",
+  "deployment": "pending_verification"
+}
