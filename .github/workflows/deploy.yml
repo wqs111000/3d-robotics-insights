@@ -38,3 +38,7 @@ jobs:
         env:
           SITE_URL: ${{ steps.deployment.outputs.page_url }}
         run: python3 tools/verify-site.py
+      - name: Verify expanded observation articles and image bytes
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: python3 tools/verify-observations.py

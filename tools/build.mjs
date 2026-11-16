@@ -14,8 +14,8 @@ const html=read('template.html').replace('/*__CSS__*/',()=>read('styles.css')).r
 fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/index.html',html);fs.writeFileSync('dist/.nojekyll','');console.log(`Built ${d.items.length} publication-approved entries`);
 buildReports({siteData:d});
 buildObservations({data:d});
-for (const script of ['tools/test-figures.py','tools/illustrate.py','tools/presentation_checks.py']) {
+for (const script of ['tools/test-figures.py','tools/illustrate.py','tools/expand-observations.py','tools/presentation_checks.py','tools/test-observations.py']) {
  const result=spawnSync('python3',[script],{stdio:'inherit'});
- if(result.error || result.status!==0) throw new Error(`Report build stage failed: ${script}`);
+ if(result.error || result.status!==0) throw new Error(`Site build stage failed: ${script}`);
 }
 fs.writeFileSync('dist/build-info.json',JSON.stringify({commit:process.env.GITHUB_SHA||null,built_at:new Date().toISOString()},null,2)+'\n');
