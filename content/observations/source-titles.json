@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "title_checked_on": "2026-11-17",
+  "scope": "仅核对资料标题与项目名称，不改变历史研究内容、事件日期或实测状态。论文原题依据 arXiv 元数据；仓库使用明确的 owner/repository 标识。",
+  "papers": {
+    "2611.16205": "QVS-LIVO RiskMap: Health- and Information-Aware View Selection for Multi-Camera LIVO and Off-Road Risk Mapping",
+    "2611.16918": "CT-SGAL-LIO: Causal Continuous Time Refinement of Discrete LiDAR Inertial Odometry",
+    "2611.13528": "GEMOR-GS: Global Extrinsic-calibration-refined Mapping and Online Relocalization for 3D Gaussian-Splatting SLAM",
+    "2611.15689": "What World Model Does Active Object Search Need? A Study under Imperfect Detection",
+    "2611.17163": "UAV-Flow++: A Unified Suite for Benchmarking and Learning Language-Guided UAV Flight",
+    "2611.11148": "MOSU2: Long-range Navigation System with Multi-modal Scene Understanding",
+    "2611.07417": "MessyNav: Zero-Shot Navigation via Manipulation in Messy Environments",
+    "2611.08100": "An Integrated Open-Source Stack for Vision-Based Autonomous Navigation of Wheeled Rovers",
+    "2611.06308": "Scale Anchoring via Implicit Semantics and Sequence-Consistent Loop Closure for VGGT-Based SLAM",
+    "2611.05129": "WayTrace: A Map-to-Language-to-Trace Hierarchy for Embodied Urban Navigation",
+    "2611.04972": "Caging Vision-Language Navigation for Legged Robots via Barrier-Certified Safety Architecture",
+    "2611.03498": "SNAP: Semantic Navigation Among Pedestrians",
+    "2610.37818": "GOFish: Full Field-of-View Gaussian Splatting and Mesh Extraction",
+    "2610.38141": "SKiD-SLAM: Resource-Aware Distributed Multi-Robot LiDAR SLAM for Planetary Missions with Field Deployments at Analog Sites",
+    "2610.38318": "What Should a Navigator Remember? Spatiotemporal Memory for Zero-Shot Vision-Language Navigation",
+    "2610.39287": "OpenFlyV2: An onboard vision-language-action model for aerial perception and navigation"
+  },
+  "pages": {
+    "https://github.com/zihanPan-HIT/QVS-LIVO": {
+      "title": "QVS-LIVO — ROS 2 激光–惯性–视觉定位",
+      "kind": "GitHub",
+      "title_source": "https://github.com/zihanPan-HIT/QVS-LIVO/blob/main/README.md"
+    },
+    "https://github.com/Vector-4D/gemor-gs": {
+      "title": "Vector-4D/gemor-gs",
+      "kind": "GitHub",
+      "status_note": "原记录：2026-11-14 访问返回 404。"
+    },
+    "https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_nvblox/index.html": {
+      "title": "Isaac ROS Nvblox",
+      "kind": "NVIDIA 文档"
+    },
+    "https://docs.gsplat.studio/main/index.html": {
+      "title": "gsplat Documentation — Overview",
+      "kind": "官方文档"
+    },
+    "https://docs.isaacsim.omniverse.nvidia.com/6.0.1/ros2_tutorials/tutorial_ros2_navigation.html": {
+      "title": "ROS 2 Navigation — Isaac Sim 6.0.1",
+      "kind": "NVIDIA 教程"
+    },
+    "https://sparolab.github.io/research/skid_slam": {
+      "title": "SKiD-SLAM: Resource-Aware Distributed Multi-Robot LiDAR SLAM for Planetary Missions with Field Deployments at Analog Sites",
+      "kind": "项目主页"
+    },
+    "https://jinggm.github.io/mosu2": {
+      "title": "MOSU2: Long-range Navigation System with Multi-modal Scene Understanding",
+      "kind": "项目主页",
+      "status_note": "论文列出的项目入口；页面未独立核实。",
+      "title_source": "https://arxiv.org/abs/2611.11148"
+    }
+  }
+}
