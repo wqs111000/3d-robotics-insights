@@ -9,13 +9,13 @@
     "published_at": "2026-11-01",
     "last_content_update": "2026-11-21",
     "disclaimer": "内容先发布并持续检查；公开资料核对不等于本人逐条审阅或独立实测。",
-    "publication_note": "第006期经公开资料核对并获发布批准；具体公开部署时间及页面校验以 GitHub Actions 为准，不代表本人审阅或实测。",
+    "publication_note": "第006期 2026-11-21 首次部署成功并完成 26 篇文章、8 幅深度报告配图与 37 条来源标题的公开核验；公开资料核对不代表本人审阅或实测。",
     "published_at_note": "沿用现有两期记录的发布日期，非经核实的站点首次部署时间。",
     "last_verified_deployment": {
-      "commit": "9210d174eea243b1cbf2c96ffe04a3a315e5ddf4",
-      "completed_at": "2026-11-14T10:07:54+08:00",
-      "workflow_run": "https://github.com/wqs111000/3d-robotics-insights/actions/runs/43544520425",
-      "note": "第005期与21篇静态详情页、两篇深度报告和8幅图像核验成功；本记录对应2026-11-14 10:07的已验证版本。"
+      "commit": "d86663b6cb2549e5cc7016f0782c2edfd7309907",
+      "completed_at": "2026-11-21T10:08:59+08:00",
+      "workflow_run": "https://github.com/wqs111000/3d-robotics-insights/actions/runs/44854200409",
+      "note": "第006期首次公开部署验证成功。后续元数据修订可能生成新的 GitHub Pages 构建；请以线上 build-info.json 为当前版本标记。"
     }
   },
   "schedule": {
@@ -1568,8 +1568,8 @@
       "title": "006 · 从可靠配准到可验收的空间行动",
       "date": "2026-11-21",
       "kind": "update",
-      "status": "approved",
-      "published_at": null,
+      "status": "published",
+      "published_at": "2026-11-21T10:08:59+08:00",
       "description": "多机器人配准的物理反证、重建采集停止、姿态敏感通行、机载 VLN 分层与可验证仿真任务。",
       "focus_title": "可工作的空间系统，必须知道何时拒绝、何时停止、何时重试",
       "focus_summary": "五项新增论文分别从配准、采集、导航控制、端侧推理和仿真任务定义出发，建立能够验证的执行边界。",
@@ -1948,25 +1948,25 @@
     "slam": {
       "baseline_established_on": "2026-10-11",
       "last_successful_scan": "2026-11-21",
-      "last_successful_publish": "2026-11-14",
+      "last_successful_publish": "2026-11-21",
       "coverage": "selected_sources_only"
     },
     "reconstruction": {
       "baseline_established_on": "2026-10-11",
       "last_successful_scan": "2026-11-21",
-      "last_successful_publish": "2026-11-14",
+      "last_successful_publish": "2026-11-21",
       "coverage": "selected_sources_only"
     },
     "navigation": {
       "baseline_established_on": "2026-10-11",
       "last_successful_scan": "2026-11-21",
-      "last_successful_publish": "2026-11-14",
+      "last_successful_publish": "2026-11-21",
       "coverage": "selected_sources_only"
     },
     "simulation": {
       "baseline_established_on": "2026-10-11",
       "last_successful_scan": "2026-11-21",
-      "last_successful_publish": "2026-11-14",
+      "last_successful_publish": "2026-11-21",
       "coverage": "selected_sources_only"
     }
   },
