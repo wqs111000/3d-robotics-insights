@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "title_checked_on": "2026-11-17",
+  "title_checked_on": "2026-11-21",
   "scope": "仅核对资料标题与项目名称，不改变历史研究内容、事件日期或实测状态。论文原题依据 arXiv 元数据；仓库使用明确的 owner/repository 标识。",
   "papers": {
     "2611.16205": "QVS-LIVO RiskMap: Health- and Information-Aware View Selection for Multi-Camera LIVO and Off-Road Risk Mapping",
@@ -18,7 +18,12 @@
     "2610.37818": "GOFish: Full Field-of-View Gaussian Splatting and Mesh Extraction",
     "2610.38141": "SKiD-SLAM: Resource-Aware Distributed Multi-Robot LiDAR SLAM for Planetary Missions with Field Deployments at Analog Sites",
     "2610.38318": "What Should a Navigator Remember? Spatiotemporal Memory for Zero-Shot Vision-Language Navigation",
-    "2610.39287": "OpenFlyV2: An onboard vision-language-action model for aerial perception and navigation"
+    "2610.39287": "OpenFlyV2: An onboard vision-language-action model for aerial perception and navigation",
+    "2611.26276": "I See You: Initial Multi-Robot LiDAR Registration with Mutual-Observation Checks",
+    "2611.26048": "AGE-Capture: Autonomous, General, and Efficient UAV Capture for High-Fidelity Scene Reconstruction",
+    "2611.25788": "Collision-Free Is Not Enough: Passage-Conditioned Navigation for Wheeled-Legged Robots",
+    "2611.23930": "A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments",
+    "2611.26046": "Agentic Scaling of Embodied Tasks in Simulation for Synthetic Data Collection and Policy Evaluation"
   },
   "pages": {
     "https://github.com/zihanPan-HIT/QVS-LIVO": {
@@ -52,6 +57,10 @@
       "kind": "项目主页",
       "status_note": "论文列出的项目入口；页面未独立核实。",
       "title_source": "https://arxiv.org/abs/2611.11148"
+    },
+    "https://tu-darmstadt-ros-pkg.github.io/i-see-you-registration": {
+      "title": "I See You: Initial Multi-Robot LiDAR Registration with Mutual-Observation Checks",
+      "kind": "项目主页"
     }
   }
 }

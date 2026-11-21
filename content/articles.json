@@ -7,9 +7,9 @@
     "status": "published",
     "public_url": "https://wqs111000.github.io/3d-robotics-insights/",
     "published_at": "2026-11-01",
-    "last_content_update": "2026-11-14",
+    "last_content_update": "2026-11-21",
     "disclaimer": "内容先发布并持续检查；公开资料核对不等于本人逐条审阅或独立实测。",
-    "publication_note": "第005期已公开上线并通过访问及逐篇文章检查；来源核查不等于本人审阅或实测。",
+    "publication_note": "第006期经公开资料核对并获发布批准；具体公开部署时间及页面校验以 GitHub Actions 为准，不代表本人审阅或实测。",
     "published_at_note": "沿用现有两期记录的发布日期，非经核实的站点首次部署时间。",
     "last_verified_deployment": {
       "commit": "9210d174eea243b1cbf2c96ffe04a3a315e5ddf4",
@@ -1561,30 +1561,411 @@
           ]
         }
       ]
+    },
+    {
+      "id": "issue-2026-11-21",
+      "number": "006",
+      "title": "006 · 从可靠配准到可验收的空间行动",
+      "date": "2026-11-21",
+      "kind": "update",
+      "status": "approved",
+      "published_at": null,
+      "description": "多机器人配准的物理反证、重建采集停止、姿态敏感通行、机载 VLN 分层与可验证仿真任务。",
+      "focus_title": "可工作的空间系统，必须知道何时拒绝、何时停止、何时重试",
+      "focus_summary": "五项新增论文分别从配准、采集、导航控制、端侧推理和仿真任务定义出发，建立能够验证的执行边界。",
+      "item_ids": [
+        "arxiv-2611-26276",
+        "arxiv-2611-26048",
+        "arxiv-2611-25788",
+        "arxiv-2611-23930",
+        "arxiv-2611-26046"
+      ],
+      "snapshots": [
+        {
+          "id": "arxiv-2611-26276",
+          "topic": "slam",
+          "name": "I See You",
+          "title": "多机器人点云对齐：先证伪错误位姿，再合并地图",
+          "event_date": "2026-11-19",
+          "date_label": "arXiv v1 提交与公开代码发布",
+          "order": 1,
+          "summary": "四机器人 LiDAR 冷启动配准，把互相可见与底盘不重叠转化为错误位姿排除条件；已提供 ROS 2 实现和测试数据。",
+          "tags": [
+            "多机器人 SLAM",
+            "LiDAR 配准",
+            "互相观测",
+            "ROS 2"
+          ],
+          "facts": [
+            {
+              "text": "11 月 19 日发布的论文与公开 ROS 2 仓库提出单次静止扫描的多机器人初始坐标对齐：先以 KISS-Matcher 和 GICP 两两配准，再用底盘包围盒重叠与互相可见性检查排除不可能的相对位姿，最终在可信边上做生成树和位姿图优化。",
+              "source_ids": [
+                "paper",
+                "code"
+              ]
+            },
+            {
+              "text": "作者在四台异构机器人同步采集的数据上报告，排除超过三分之一错误的两两配准，同时误拒绝正确配准的比例低于 1%，含错误机器人位姿的整队配准案例减少 38%。这是作者数据集上的结果，而非通用保证。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "公开仓库提供 ROS 2 节点、PCD/话题输入、静态 TF 发布与可复现示例；README 标注在 Ubuntu 24.04 / ROS 2 Jazzy 测试，且互相观测门控通过只代表没有被证伪，不代表结果已被证明正确。",
+              "source_ids": [
+                "code"
+              ]
+            }
+          ],
+          "judgment": "有价值的变化不是再加一个点云优化器，而是将几何物理常识变成配准的拒绝规则。对多车建图，应该把错误配准率、漏注册率与坐标系发布安全性作为三项独立指标；与既有 SKiD-SLAM 的低带宽分布式地图融合关注点不同，本工作只处理任务开始前的集中式初始对齐。",
+          "limitations": "方法假设机器人同场起步、相对静止、重力对齐、有一定视野重叠和中央通信；不解决长期多机 SLAM、远距会合或所有局部重叠场景。论文与仓库均未由本站独立运行；Mid-360 出现在作者数据中，不等于已在用户设备上适配成功。",
+          "experiment": "优先直接复现官方 lab 和 walkway 两组静态录包，分别开关 mutual_observation_check，统计误接受、误拒绝、未注册机器人比例及 TF 连通性；再用 Mid-360 单次扫与 1 s 累计对比退化。",
+          "watch": "数据集可下载性、ROS 2 Jazzy 对 Humble 的依赖差异、遮挡判据对 FoV 和车体尺寸误差的敏感性。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.26276",
+              "scope": "2026-11-19 v1；方法与作者四机器人评测",
+              "checked_on": "2026-11-21"
+            },
+            {
+              "id": "code",
+              "label": "作者代码 · GitHub",
+              "url": "https://github.com/tu-darmstadt-ros-pkg/i-see-you-registration",
+              "scope": "2026-11-19 代码公开，README 和 Jazzy 例程",
+              "checked_on": "2026-11-21"
+            },
+            {
+              "id": "project",
+              "label": "作者项目页",
+              "url": "https://tu-darmstadt-ros-pkg.github.io/i-see-you-registration/",
+              "scope": "作者项目与数据入口",
+              "checked_on": "2026-11-21"
+            }
+          ],
+          "event_date_precision": "day",
+          "action": "原始资料研究与最小验证",
+          "first_added": "2026-11-21",
+          "checked_on": "2026-11-21",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-21"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-21",
+              "kind": "new_paper",
+              "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-26048",
+          "topic": "reconstruction",
+          "name": "AGE-Capture",
+          "title": "主动三维重建：下一视角之外，还要知道何时拍够了",
+          "event_date": "2026-11-19",
+          "date_label": "arXiv v1 提交",
+          "order": 2,
+          "summary": "以可渲染性评价视角收益和重建剩余价值，联合机动规划、异步拍摄与自动终止；公开证据包含仿真和九个实飞场景。",
+          "tags": [
+            "主动重建",
+            "NBV",
+            "3DGS",
+            "采集停止判据"
+          ],
+          "facts": [
+            {
+              "text": "AGE-Capture 将几何探索和高质量 RGB 重建采集解耦，基于在线轻量 renderability 状态评估候选视角；用统一相机射线表示承接不同测距传感器与成像模型，用 reconstruction-frontier 判断继续采集的剩余价值。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "系统通过分层区域选择、考虑动力学的 NBV 轨迹和提前异步重规划减少等待与重复采集；其规划阶段的预测观测采用可撤销临时更新，避免将尚未发生的采集当成真实建图结果。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者在 10 个仿真场景报告在线 PSNR 均值较所对照方法高 3.30–3.53 dB，平均使用约 58.2% 的共同任务时长预算，峰值 GPU 显存均值低 91.0%–93.3%；另报告九个实景飞行闭环。上述比较依赖作者设置的基线、任务与硬件。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "值得迁移的是以几何可观测性和增益停止规则控制采集预算，而非假设飞完固定航线就是重建完成。数字孪生/室内 RGB-D 采集可先复用同一思想做离线视角选择；PSNR 提升不能替代尺度、碰撞或薄结构评测。",
+          "limitations": "作者评测主要衡量图像重建质量和采集资源，没有证明导出的网格可直接用于机器人避障。未验证公开源代码、不同相机/测距配置的真实适配，也未在本站设备复现；实飞成功不等于任意场景安全可用。",
+          "experiment": "离线以固定重建数据集按序释放帧，分别使用等间隔取帧、几何覆盖贪心和残余 renderability 选择；同等帧数比较 PSNR、深度误差、覆盖空洞、计算开销及停止时机，不必先部署无人机。",
+          "watch": "是否公开端到端代码、跨相机模型的误差、停止阈值对细小或反光结构的遗漏。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.26048",
+              "scope": "2026-11-19 v1；十场景仿真与九场景实飞",
+              "checked_on": "2026-11-21"
+            }
+          ],
+          "event_date_precision": "day",
+          "action": "原始资料研究与最小验证",
+          "first_added": "2026-11-21",
+          "checked_on": "2026-11-21",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-21"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-21",
+              "kind": "new_paper",
+              "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-25788",
+          "topic": "navigation",
+          "name": "Passage-Conditioned Navigation",
+          "title": "无碰撞不代表能通过：把入口姿态写进导航路径",
+          "event_date": "2026-11-19",
+          "date_label": "arXiv v1 提交",
+          "order": 3,
+          "summary": "对重复路线的台阶和边缘通行记录示教入口位姿；局部重规划后仍按入口门控恢复姿态，而非只追求几何无碰撞。",
+          "tags": [
+            "非圆形机器人",
+            "导航",
+            "入口姿态",
+            "失败恢复"
+          ],
+          "facts": [
+            {
+              "text": "论文提出 passage-conditioned navigation：记录一次成功通过台阶/边缘的示教事件及入口姿态，局部重规划后仍使用 gate 检查方向和位置，偏离阈值时先重新对齐，必要时后退重试。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者在定位扰动实验中报告，保持与示教入口偏差小于 10 cm、10° 的比例从 24.1% 提升到 88.6%；接触仿真中受扰的 180 次攀阶实验，加入入口约束的策略 0 次跌倒，对照出现 9 次。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者报告真实轮腿机器人在包含 7 m 高差的 271 m 赛道上完成六次测试；这不是对纯轮式底盘、任意台阶或所有工业工位的通用验证。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "这里的关键不是换一个更复杂的全局路径算法，而是将路径中影响动作成功的入口姿态、朝向和通过方式提升为显式约束。对桌边停靠、窄口通过和工位对接可类比地引入 docking gate，但必须重新定义自身的碰撞几何及可接受误差。",
+          "limitations": "研究验证对象是轮腿机器人和已经示教可通过的地形，不等于对差速、不能横移的纯轮式底盘有效；10 cm/10° 是论文场景阈值，并非桌边精靠参数。未确认作者代码或独立复现。",
+          "experiment": "在仿真中固定一条窄口/桌边接近路径，注入横向和航向初始偏差；对比普通 Nav2 Goal 跟踪、几何路径+入口 gate、入口 gate+后退重靠三组，记录安全距离、成功率、倒车次数与重试代价。",
+          "watch": "公开实现、入口阈值与机器人外形耦合、定位漂移时的门控误判及动态障碍干扰。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.25788",
+              "scope": "2026-11-19 v1；作者仿真和实机路线实验",
+              "checked_on": "2026-11-21"
+            }
+          ],
+          "event_date_precision": "day",
+          "action": "原始资料研究与最小验证",
+          "first_added": "2026-11-21",
+          "checked_on": "2026-11-21",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-21"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-21",
+              "kind": "new_paper",
+              "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-23930",
+          "topic": "navigation",
+          "name": "VLN-AR",
+          "title": "机载 VLN 的工程分层：3DGS 数据、记忆与端侧稀疏化",
+          "event_date": "2026-11-18",
+          "date_label": "arXiv v1 提交（论文标注 T-RO 已录用）",
+          "order": 4,
+          "summary": "将高层视觉语言推理转为结构化位姿目标，交由局部动作专家执行；进一步优化长任务记忆、3DGS 数据生成和机载推理。",
+          "tags": [
+            "VLN",
+            "机载 VLM",
+            "3DGS 数据",
+            "Sim-to-Real"
+          ],
+          "facts": [
+            {
+              "text": "VLN-AR 将 VLM 输出的三维位姿、导航意图等结构化内容交给低层局部运动规划模块执行，避免大模型直接承担高频飞行控制；训练数据由 3DGS 重建场景生成，训练分为语义/导航监督与闭环强化学习阶段。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "论文明确承认其部分基础来自 2025 年的 VLA-AN 工作；本次进一步强化动态记忆、任务分解、指令驱动视觉 token 稀疏化、量化与系统部署。作者报告不同规模模型解码加速约 7.1–9.4 倍，不能直接解释为整机导航吞吐翻倍。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "arXiv 版本于 11 月 18 日提交，文中标注 IEEE Transactions on Robotics 已于 2026-11-09 录用；这是论文公开与既有研究扩展，不应写成所有算法组件都在本周首次提出。项目页面本轮未独立访问成功，代码、训练成本与模型权重可用性尚未核实。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "与上期 UAV-Flow++ 更关注短指令、可检验动作及数据评测不同，本研究展示分层系统把机载计算瓶颈和长时记忆一起处理。可迁移到地面机器人的是结构化目标接口与异步控制，不是具体无人机控制律；推理模型自身可能存在部署成本，本站未调用付费模型。",
+          "limitations": "作者自设场景和飞控栈上的结果不等于其他平台实时性，解码 token 速度也不是端到端控制周期；项目网页在本次检索不可访问，不把代码或权重视为已开放，未独立实测。",
+          "experiment": "不调用 VLM API，先用离线固定的语言指令—目标位姿列表模拟高层输出，在 Isaac Sim/ROS 2 中验证高层 1–2 Hz 更新与局部高频闭环之间的缓冲、超时、重规划和停止判据；再测试视觉 token 数量与延迟的独立关系。",
+          "watch": "项目与代码访问情况、硬件/模型配置、整链路延迟、指令错误和失效降级的独立数据。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.23930",
+              "scope": "2026-11-18 v1；文中标注 2026-11-09 T-RO 录用",
+              "checked_on": "2026-11-21"
+            }
+          ],
+          "event_date_precision": "day",
+          "action": "原始资料研究与最小验证",
+          "first_added": "2026-11-21",
+          "checked_on": "2026-11-21",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-21"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-21",
+              "kind": "new_paper",
+              "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+            }
+          ]
+        },
+        {
+          "id": "arxiv-2611-26046",
+          "topic": "simulation",
+          "name": "AgenticTask",
+          "title": "可验证的仿真任务生成：保存成功，不等于物理可执行",
+          "event_date": "2026-11-19",
+          "date_label": "arXiv v1 提交",
+          "order": 5,
+          "summary": "以对象绑定、初始状态和完成判据描述仿真交互任务，通过物理检查反馈修复候选；把生成产率与执行成功明确分开。",
+          "tags": [
+            "仿真任务生成",
+            "RoboCasa",
+            "验证反馈",
+            "Sim-to-Real"
+          ],
+          "facts": [
+            {
+              "text": "AgenticTask 在 RoboCasa 上通过任务生成 Agent 组合对象/部件绑定、场景配置、初始条件与成功判据，再用物理约束检查和反馈修复不兼容任务；执行 Agent 按同一任务契约选择技能并检查完成。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "作者报告 20,323 次构造尝试中保存 16,450 个任务实例，保存率 80.94%，但物理检查通过率仅 62.26%；成功保存不代表物理合法。执行 Agent 在评测任务中的完成率约 38%。",
+              "source_ids": [
+                "paper"
+              ]
+            },
+            {
+              "text": "论文同时报告诊断修复比重新采样略提高保存率（96.5%→97.2%），代价是每个保存任务更耗时、需要更多模型调用；这些均是作者配置下的生产率，不表示已生成可直接用于训练的高质量真实机器人数据。本轮数据集链接需账户授权、项目页不可访问，未验证下载可复现。",
+              "source_ids": [
+                "paper"
+              ]
+            }
+          ],
+          "judgment": "最值得迁移的是把任务视作可校验数据结构：目标对象、可操作部件、环境条件、允许动作、验收谓词与失败证据。无论做机器人训练集还是程序化小游戏，生成数量不是核心指标，任务的几何/物理正确性、可完成性与多样性应分开计数。",
+          "limitations": "论文评测主要在 RoboCasa 操作任务上，不等于低成本的移动机器人导航数据生成；一些原始模型调用可能有费用，本站没有运行这些调用，也不建议为此购买 credits。数据与项目页面本轮访问受限；未复现。",
+          "experiment": "用现有本地 Isaac Sim/Gazebo 场景手工生成 20–30 个免费模板变体，仅通过规则和几何脚本检查碰撞、初始条件及成功谓词，再让已有固定控制策略尝试执行；分别统计构造产率、物理通过率和执行成功率，不使用付费 API。",
+          "watch": "任务数据可下载状态、可验证判据的覆盖率、任务分布偏差与诊断修复实际成本。",
+          "sources": [
+            {
+              "id": "paper",
+              "label": "作者论文 · arXiv",
+              "url": "https://arxiv.org/abs/2611.26046",
+              "scope": "2026-11-19 v1；作者 RoboCasa 任务生成和执行评测",
+              "checked_on": "2026-11-21"
+            }
+          ],
+          "event_date_precision": "day",
+          "action": "原始资料研究与最小验证",
+          "first_added": "2026-11-21",
+          "checked_on": "2026-11-21",
+          "revision": 1,
+          "evidence": "public_material_checked",
+          "owner_reviewed": false,
+          "independently_tested": false,
+          "publish_approved": true,
+          "issue_ids": [
+            "issue-2026-11-21"
+          ],
+          "change_kind": "new_paper",
+          "changes": [
+            {
+              "date": "2026-11-21",
+              "kind": "new_paper",
+              "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+            }
+          ]
+        }
+      ]
     }
   ],
   "topic_state": {
     "slam": {
       "baseline_established_on": "2026-10-11",
-      "last_successful_scan": "2026-11-14",
+      "last_successful_scan": "2026-11-21",
       "last_successful_publish": "2026-11-14",
       "coverage": "selected_sources_only"
     },
     "reconstruction": {
       "baseline_established_on": "2026-10-11",
-      "last_successful_scan": "2026-11-14",
+      "last_successful_scan": "2026-11-21",
       "last_successful_publish": "2026-11-14",
       "coverage": "selected_sources_only"
     },
     "navigation": {
       "baseline_established_on": "2026-10-11",
-      "last_successful_scan": "2026-11-14",
+      "last_successful_scan": "2026-11-21",
       "last_successful_publish": "2026-11-14",
       "coverage": "selected_sources_only"
     },
     "simulation": {
       "baseline_established_on": "2026-10-11",
-      "last_successful_scan": "2026-11-14",
+      "last_successful_scan": "2026-11-21",
       "last_successful_publish": "2026-11-14",
       "coverage": "selected_sources_only"
     }
@@ -2994,6 +3375,366 @@
         }
       ],
       "publish_approved": true
+    },
+    {
+      "id": "arxiv-2611-26276",
+      "topic": "slam",
+      "name": "I See You",
+      "title": "多机器人点云对齐：先证伪错误位姿，再合并地图",
+      "event_date": "2026-11-19",
+      "date_label": "arXiv v1 提交与公开代码发布",
+      "order": 1,
+      "summary": "四机器人 LiDAR 冷启动配准，把互相可见与底盘不重叠转化为错误位姿排除条件；已提供 ROS 2 实现和测试数据。",
+      "tags": [
+        "多机器人 SLAM",
+        "LiDAR 配准",
+        "互相观测",
+        "ROS 2"
+      ],
+      "facts": [
+        {
+          "text": "11 月 19 日发布的论文与公开 ROS 2 仓库提出单次静止扫描的多机器人初始坐标对齐：先以 KISS-Matcher 和 GICP 两两配准，再用底盘包围盒重叠与互相可见性检查排除不可能的相对位姿，最终在可信边上做生成树和位姿图优化。",
+          "source_ids": [
+            "paper",
+            "code"
+          ]
+        },
+        {
+          "text": "作者在四台异构机器人同步采集的数据上报告，排除超过三分之一错误的两两配准，同时误拒绝正确配准的比例低于 1%，含错误机器人位姿的整队配准案例减少 38%。这是作者数据集上的结果，而非通用保证。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "公开仓库提供 ROS 2 节点、PCD/话题输入、静态 TF 发布与可复现示例；README 标注在 Ubuntu 24.04 / ROS 2 Jazzy 测试，且互相观测门控通过只代表没有被证伪，不代表结果已被证明正确。",
+          "source_ids": [
+            "code"
+          ]
+        }
+      ],
+      "judgment": "有价值的变化不是再加一个点云优化器，而是将几何物理常识变成配准的拒绝规则。对多车建图，应该把错误配准率、漏注册率与坐标系发布安全性作为三项独立指标；与既有 SKiD-SLAM 的低带宽分布式地图融合关注点不同，本工作只处理任务开始前的集中式初始对齐。",
+      "limitations": "方法假设机器人同场起步、相对静止、重力对齐、有一定视野重叠和中央通信；不解决长期多机 SLAM、远距会合或所有局部重叠场景。论文与仓库均未由本站独立运行；Mid-360 出现在作者数据中，不等于已在用户设备上适配成功。",
+      "experiment": "优先直接复现官方 lab 和 walkway 两组静态录包，分别开关 mutual_observation_check，统计误接受、误拒绝、未注册机器人比例及 TF 连通性；再用 Mid-360 单次扫与 1 s 累计对比退化。",
+      "watch": "数据集可下载性、ROS 2 Jazzy 对 Humble 的依赖差异、遮挡判据对 FoV 和车体尺寸误差的敏感性。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.26276",
+          "scope": "2026-11-19 v1；方法与作者四机器人评测",
+          "checked_on": "2026-11-21"
+        },
+        {
+          "id": "code",
+          "label": "作者代码 · GitHub",
+          "url": "https://github.com/tu-darmstadt-ros-pkg/i-see-you-registration",
+          "scope": "2026-11-19 代码公开，README 和 Jazzy 例程",
+          "checked_on": "2026-11-21"
+        },
+        {
+          "id": "project",
+          "label": "作者项目页",
+          "url": "https://tu-darmstadt-ros-pkg.github.io/i-see-you-registration/",
+          "scope": "作者项目与数据入口",
+          "checked_on": "2026-11-21"
+        }
+      ],
+      "event_date_precision": "day",
+      "action": "原始资料研究与最小验证",
+      "first_added": "2026-11-21",
+      "checked_on": "2026-11-21",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-21"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-21",
+          "kind": "new_paper",
+          "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-26048",
+      "topic": "reconstruction",
+      "name": "AGE-Capture",
+      "title": "主动三维重建：下一视角之外，还要知道何时拍够了",
+      "event_date": "2026-11-19",
+      "date_label": "arXiv v1 提交",
+      "order": 2,
+      "summary": "以可渲染性评价视角收益和重建剩余价值，联合机动规划、异步拍摄与自动终止；公开证据包含仿真和九个实飞场景。",
+      "tags": [
+        "主动重建",
+        "NBV",
+        "3DGS",
+        "采集停止判据"
+      ],
+      "facts": [
+        {
+          "text": "AGE-Capture 将几何探索和高质量 RGB 重建采集解耦，基于在线轻量 renderability 状态评估候选视角；用统一相机射线表示承接不同测距传感器与成像模型，用 reconstruction-frontier 判断继续采集的剩余价值。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "系统通过分层区域选择、考虑动力学的 NBV 轨迹和提前异步重规划减少等待与重复采集；其规划阶段的预测观测采用可撤销临时更新，避免将尚未发生的采集当成真实建图结果。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者在 10 个仿真场景报告在线 PSNR 均值较所对照方法高 3.30–3.53 dB，平均使用约 58.2% 的共同任务时长预算，峰值 GPU 显存均值低 91.0%–93.3%；另报告九个实景飞行闭环。上述比较依赖作者设置的基线、任务与硬件。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "值得迁移的是以几何可观测性和增益停止规则控制采集预算，而非假设飞完固定航线就是重建完成。数字孪生/室内 RGB-D 采集可先复用同一思想做离线视角选择；PSNR 提升不能替代尺度、碰撞或薄结构评测。",
+      "limitations": "作者评测主要衡量图像重建质量和采集资源，没有证明导出的网格可直接用于机器人避障。未验证公开源代码、不同相机/测距配置的真实适配，也未在本站设备复现；实飞成功不等于任意场景安全可用。",
+      "experiment": "离线以固定重建数据集按序释放帧，分别使用等间隔取帧、几何覆盖贪心和残余 renderability 选择；同等帧数比较 PSNR、深度误差、覆盖空洞、计算开销及停止时机，不必先部署无人机。",
+      "watch": "是否公开端到端代码、跨相机模型的误差、停止阈值对细小或反光结构的遗漏。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.26048",
+          "scope": "2026-11-19 v1；十场景仿真与九场景实飞",
+          "checked_on": "2026-11-21"
+        }
+      ],
+      "event_date_precision": "day",
+      "action": "原始资料研究与最小验证",
+      "first_added": "2026-11-21",
+      "checked_on": "2026-11-21",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-21"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-21",
+          "kind": "new_paper",
+          "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-25788",
+      "topic": "navigation",
+      "name": "Passage-Conditioned Navigation",
+      "title": "无碰撞不代表能通过：把入口姿态写进导航路径",
+      "event_date": "2026-11-19",
+      "date_label": "arXiv v1 提交",
+      "order": 3,
+      "summary": "对重复路线的台阶和边缘通行记录示教入口位姿；局部重规划后仍按入口门控恢复姿态，而非只追求几何无碰撞。",
+      "tags": [
+        "非圆形机器人",
+        "导航",
+        "入口姿态",
+        "失败恢复"
+      ],
+      "facts": [
+        {
+          "text": "论文提出 passage-conditioned navigation：记录一次成功通过台阶/边缘的示教事件及入口姿态，局部重规划后仍使用 gate 检查方向和位置，偏离阈值时先重新对齐，必要时后退重试。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者在定位扰动实验中报告，保持与示教入口偏差小于 10 cm、10° 的比例从 24.1% 提升到 88.6%；接触仿真中受扰的 180 次攀阶实验，加入入口约束的策略 0 次跌倒，对照出现 9 次。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告真实轮腿机器人在包含 7 m 高差的 271 m 赛道上完成六次测试；这不是对纯轮式底盘、任意台阶或所有工业工位的通用验证。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "这里的关键不是换一个更复杂的全局路径算法，而是将路径中影响动作成功的入口姿态、朝向和通过方式提升为显式约束。对桌边停靠、窄口通过和工位对接可类比地引入 docking gate，但必须重新定义自身的碰撞几何及可接受误差。",
+      "limitations": "研究验证对象是轮腿机器人和已经示教可通过的地形，不等于对差速、不能横移的纯轮式底盘有效；10 cm/10° 是论文场景阈值，并非桌边精靠参数。未确认作者代码或独立复现。",
+      "experiment": "在仿真中固定一条窄口/桌边接近路径，注入横向和航向初始偏差；对比普通 Nav2 Goal 跟踪、几何路径+入口 gate、入口 gate+后退重靠三组，记录安全距离、成功率、倒车次数与重试代价。",
+      "watch": "公开实现、入口阈值与机器人外形耦合、定位漂移时的门控误判及动态障碍干扰。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.25788",
+          "scope": "2026-11-19 v1；作者仿真和实机路线实验",
+          "checked_on": "2026-11-21"
+        }
+      ],
+      "event_date_precision": "day",
+      "action": "原始资料研究与最小验证",
+      "first_added": "2026-11-21",
+      "checked_on": "2026-11-21",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-21"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-21",
+          "kind": "new_paper",
+          "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-23930",
+      "topic": "navigation",
+      "name": "VLN-AR",
+      "title": "机载 VLN 的工程分层：3DGS 数据、记忆与端侧稀疏化",
+      "event_date": "2026-11-18",
+      "date_label": "arXiv v1 提交（论文标注 T-RO 已录用）",
+      "order": 4,
+      "summary": "将高层视觉语言推理转为结构化位姿目标，交由局部动作专家执行；进一步优化长任务记忆、3DGS 数据生成和机载推理。",
+      "tags": [
+        "VLN",
+        "机载 VLM",
+        "3DGS 数据",
+        "Sim-to-Real"
+      ],
+      "facts": [
+        {
+          "text": "VLN-AR 将 VLM 输出的三维位姿、导航意图等结构化内容交给低层局部运动规划模块执行，避免大模型直接承担高频飞行控制；训练数据由 3DGS 重建场景生成，训练分为语义/导航监督与闭环强化学习阶段。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "论文明确承认其部分基础来自 2025 年的 VLA-AN 工作；本次进一步强化动态记忆、任务分解、指令驱动视觉 token 稀疏化、量化与系统部署。作者报告不同规模模型解码加速约 7.1–9.4 倍，不能直接解释为整机导航吞吐翻倍。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "arXiv 版本于 11 月 18 日提交，文中标注 IEEE Transactions on Robotics 已于 2026-11-09 录用；这是论文公开与既有研究扩展，不应写成所有算法组件都在本周首次提出。项目页面本轮未独立访问成功，代码、训练成本与模型权重可用性尚未核实。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "与上期 UAV-Flow++ 更关注短指令、可检验动作及数据评测不同，本研究展示分层系统把机载计算瓶颈和长时记忆一起处理。可迁移到地面机器人的是结构化目标接口与异步控制，不是具体无人机控制律；推理模型自身可能存在部署成本，本站未调用付费模型。",
+      "limitations": "作者自设场景和飞控栈上的结果不等于其他平台实时性，解码 token 速度也不是端到端控制周期；项目网页在本次检索不可访问，不把代码或权重视为已开放，未独立实测。",
+      "experiment": "不调用 VLM API，先用离线固定的语言指令—目标位姿列表模拟高层输出，在 Isaac Sim/ROS 2 中验证高层 1–2 Hz 更新与局部高频闭环之间的缓冲、超时、重规划和停止判据；再测试视觉 token 数量与延迟的独立关系。",
+      "watch": "项目与代码访问情况、硬件/模型配置、整链路延迟、指令错误和失效降级的独立数据。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.23930",
+          "scope": "2026-11-18 v1；文中标注 2026-11-09 T-RO 录用",
+          "checked_on": "2026-11-21"
+        }
+      ],
+      "event_date_precision": "day",
+      "action": "原始资料研究与最小验证",
+      "first_added": "2026-11-21",
+      "checked_on": "2026-11-21",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-21"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-21",
+          "kind": "new_paper",
+          "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+        }
+      ]
+    },
+    {
+      "id": "arxiv-2611-26046",
+      "topic": "simulation",
+      "name": "AgenticTask",
+      "title": "可验证的仿真任务生成：保存成功，不等于物理可执行",
+      "event_date": "2026-11-19",
+      "date_label": "arXiv v1 提交",
+      "order": 5,
+      "summary": "以对象绑定、初始状态和完成判据描述仿真交互任务，通过物理检查反馈修复候选；把生成产率与执行成功明确分开。",
+      "tags": [
+        "仿真任务生成",
+        "RoboCasa",
+        "验证反馈",
+        "Sim-to-Real"
+      ],
+      "facts": [
+        {
+          "text": "AgenticTask 在 RoboCasa 上通过任务生成 Agent 组合对象/部件绑定、场景配置、初始条件与成功判据，再用物理约束检查和反馈修复不兼容任务；执行 Agent 按同一任务契约选择技能并检查完成。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "作者报告 20,323 次构造尝试中保存 16,450 个任务实例，保存率 80.94%，但物理检查通过率仅 62.26%；成功保存不代表物理合法。执行 Agent 在评测任务中的完成率约 38%。",
+          "source_ids": [
+            "paper"
+          ]
+        },
+        {
+          "text": "论文同时报告诊断修复比重新采样略提高保存率（96.5%→97.2%），代价是每个保存任务更耗时、需要更多模型调用；这些均是作者配置下的生产率，不表示已生成可直接用于训练的高质量真实机器人数据。本轮数据集链接需账户授权、项目页不可访问，未验证下载可复现。",
+          "source_ids": [
+            "paper"
+          ]
+        }
+      ],
+      "judgment": "最值得迁移的是把任务视作可校验数据结构：目标对象、可操作部件、环境条件、允许动作、验收谓词与失败证据。无论做机器人训练集还是程序化小游戏，生成数量不是核心指标，任务的几何/物理正确性、可完成性与多样性应分开计数。",
+      "limitations": "论文评测主要在 RoboCasa 操作任务上，不等于低成本的移动机器人导航数据生成；一些原始模型调用可能有费用，本站没有运行这些调用，也不建议为此购买 credits。数据与项目页面本轮访问受限；未复现。",
+      "experiment": "用现有本地 Isaac Sim/Gazebo 场景手工生成 20–30 个免费模板变体，仅通过规则和几何脚本检查碰撞、初始条件及成功谓词，再让已有固定控制策略尝试执行；分别统计构造产率、物理通过率和执行成功率，不使用付费 API。",
+      "watch": "任务数据可下载状态、可验证判据的覆盖率、任务分布偏差与诊断修复实际成本。",
+      "sources": [
+        {
+          "id": "paper",
+          "label": "作者论文 · arXiv",
+          "url": "https://arxiv.org/abs/2611.26046",
+          "scope": "2026-11-19 v1；作者 RoboCasa 任务生成和执行评测",
+          "checked_on": "2026-11-21"
+        }
+      ],
+      "event_date_precision": "day",
+      "action": "原始资料研究与最小验证",
+      "first_added": "2026-11-21",
+      "checked_on": "2026-11-21",
+      "revision": 1,
+      "evidence": "public_material_checked",
+      "owner_reviewed": false,
+      "independently_tested": false,
+      "publish_approved": true,
+      "issue_ids": [
+        "issue-2026-11-21"
+      ],
+      "change_kind": "new_paper",
+      "changes": [
+        {
+          "date": "2026-11-21",
+          "kind": "new_paper",
+          "note": "本期首次收录新提交论文；仅公开资料核查，未独立实测。"
+        }
+      ]
     }
   ],
   "update_log": [
